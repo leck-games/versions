@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en"><head><script>/* versions: frozen snapshot shim (terrain/0.0.2) */(function(){var P="vm:terrain/0.0.2:",S=Storage.prototype,g=S.getItem,s=S.setItem,r=S.removeItem;function L(t){try{return t===window.localStorage}catch(e){return false}}S.getItem=function(k){return g.call(this,L(this)?P+k:k)};S.setItem=function(k,v){return s.call(this,L(this)?P+k:k,v)};S.removeItem=function(k){return r.call(this,L(this)?P+k:k)};try{if(navigator.serviceWorker)navigator.serviceWorker.register=function(){return Promise.reject(new Error("service workers are disabled in frozen snapshots"))}}catch(e){}})();</script><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Sine Rally — Terrain module test build</title>
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;background:#111;font:600 12px/1.25 "Trebuchet MS",system-ui,sans-serif;color:#111;touch-action:none;-webkit-user-select:none;user-select:none}
+  canvas{display:block}
+  #ui{position:fixed;left:max(8px,env(safe-area-inset-left));top:max(8px,env(safe-area-inset-top));width:270px;max-height:calc(100% - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom));overflow:auto;background:#ffe9a8;border:3px solid #111;box-shadow:4px 4px 0 #111;padding:6px 8px;border-radius:4px}
+  #ui.min .body{display:none}
+  #ui h1{font:900 14px/1 Impact,"Arial Black",sans-serif;letter-spacing:.5px;margin:0 0 4px;display:flex;justify-content:space-between;cursor:pointer}
+  .row{display:flex;flex-wrap:wrap;gap:3px;margin:4px 0;align-items:center}
+  button{font:800 11px/1 "Trebuchet MS",sans-serif;padding:5px 6px;border:2px solid #111;background:#fff;border-radius:3px;box-shadow:2px 2px 0 #111;cursor:pointer;text-transform:uppercase}
+  button.on{background:#ff8a1f;color:#111}
+  button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #111}
+  label{font-weight:800;min-width:54px} input[type=range]{flex:1;accent-color:#e4572e}
+  #fps{position:fixed;right:max(8px,env(safe-area-inset-right));top:max(8px,env(safe-area-inset-top));background:#111;color:#ffe066;padding:4px 7px;font:800 12px monospace;border-radius:3px;white-space:pre;text-align:right}
+  #hint{font-size:10px;opacity:.8} #log{font:10px monospace;white-space:pre-wrap;max-height:70px;overflow:auto}
+  #pad{position:fixed;right:max(10px,env(safe-area-inset-right));bottom:max(14px,env(safe-area-inset-bottom));display:none;grid-template-columns:repeat(3,46px);gap:5px}
+  #pad button{height:46px;font-size:16px} body.touch #pad{display:grid}
+  body.clean #ui,body.clean #pad{display:none}
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="SR Terrain">
+<meta name="theme-color" content="#2f8f4e"><meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<style>/* iOS home-screen */canvas{touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}#allBuilds{font-size:11px!important;padding:5px 6px!important;border-width:2px!important;box-shadow:2px 2px 0 #111!important;display:inline-block;text-decoration:none;font:900 12px "Arial Black",system-ui,sans-serif;color:#111;background:#fff;border:3px solid #111;border-radius:6px;padding:5px 9px;box-shadow:3px 3px 0 #111;-webkit-tap-highlight-color:transparent}</style>
+</head><body>
+<div id="ui"><h1 id="uiH"><span>SINE RALLY · TERRAIN</span><span>▾</span></h1><div class="body">
+  <div class="row"><label>Builds</label><a id="allBuilds" href="https://leck-games.github.io/">‹ All builds</a></div>
+    <div class="row"><label>Camera</label><button id="mFly" class="on">Fly</button><button id="mDrive">Drive</button></div>
+  <div class="row" id="tp"><label>Go to</label></div>
+  <div class="row"><label>Wind °</label><input id="wDir" type="range" min="0" max="360" value="35"></div>
+  <div class="row"><label>Wind m/s</label><input id="wSpd" type="range" min="0" max="25" value="6"><span id="wV">6</span></div>
+  <div class="row"><label>Fire</label><button id="ign">Ignite</button><button id="hot">Hot engine</button><button id="ovh">Overheat</button></div>
+  <div class="row"><label>Rain</label><button data-r="auto" class="on">Auto</button><button data-r="on">On</button><button data-r="storm">Storm</button><button data-r="off">Off</button><button id="bolt">⚡</button></div>
+  <div class="row"><label>Time</label><input id="tod" type="range" min="0" max="1000" value="360"><button id="todA">Cycle</button></div>
+  <div class="row"><label>Trees</label><button id="hit">Hit tree</button><button id="burnT">Burn tree</button><button id="clr">Reset</button></div>
+  <div id="hint">Fly: WASD/arrows, Q/E down/up, Shift fast, drag to look. Drive: W/S throttle, A/D steer (stub car, 3-HP tree rule; &gt;300 km/h zooms through).</div>
+  <div id="log"></div>
+</div></div>
+<div id="fps">--</div>
+<div id="pad"><span></span><button data-k="KeyW">▲</button><span></span><button data-k="KeyA">◀</button><button data-k="KeyS">▼</button><button data-k="KeyD">▶</button><button data-k="KeyQ">⤓</button><span></span><button data-k="KeyE">⤒</button></div>
+<script type="module" src="./test/main.js"></script>
+</body></html>

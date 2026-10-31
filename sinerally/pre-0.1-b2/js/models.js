@@ -1,0 +1,83 @@
+// Low-poly models built in code, merged into single vertex-coloured geometries (one draw call each).
+import * as THREE from 'three';
+const M4 = new THREE.Matrix4(), Q = new THREE.Quaternion(), E = new THREE.Euler(), V = new THREE.Vector3(), S = new THREE.Vector3();
+export function P(geo, col, pos = [0, 0, 0], rot = [0, 0, 0], scl = [1, 1, 1], cp = 0) {
+  const g = geo.index ? geo.toNonIndexed() : geo.clone();
+  g.applyMatrix4(M4.compose(V.set(...pos), Q.setFromEuler(E.set(...rot)), S.set(...scl)));
+  g.computeVertexNormals(); // flat normals (non-indexed)
+  const c = new THREE.Color(col), n = g.attributes.position.count;
+  g.setAttribute('color', new THREE.BufferAttribute(new Float32Array(n * 3).map((_, i) => [c.r, c.g, c.b][i % 3]), 3));
+  g.setAttribute('cp', new THREE.BufferAttribute(new Float32Array(n).fill(cp), 1));
+  return g;
+}
+export function merge(parts) {
+  const names = ['position', 'normal', 'color', 'cp'], out = new THREE.BufferGeometry();
+  for (const nm of names) {
+    const sz = parts[0].attributes[nm].itemSize, len = parts.reduce((a, p) => a + p.attributes[nm].array.length, 0), arr = new Float32Array(len);
+    let o = 0; for (const p of parts) { arr.set(p.attributes[nm].array, o); o += p.attributes[nm].array.length; }
+    out.setAttribute(nm, new THREE.BufferAttribute(arr, sz));
+  }
+  out.computeBoundingSphere(); return out;
+}
+const box = (w, h, d) => new THREE.BoxGeometry(w, h, d), cyl = (a, b, h, s = 6) => new THREE.CylinderGeometry(a, b, h, s), cone = (r, h, s = 6) => new THREE.ConeGeometry(r, h, s);
+const ico = (r, d = 0) => new THREE.IcosahedronGeometry(r, d);
+// ---- trees (white-ish foliage tinted per instance via instanceColor) ----
+export function treeVariants() {
+  const T = 0x7a4a2a;
+  const pine = merge([P(cyl(.35, .55, 3), T, [0, 1.5, 0]), P(cone(3.2, 4.5, 7), 0x2f8f3c, [0, 4.5, 0]), P(cone(2.5, 3.8, 7), 0x3aa046, [0, 6.6, 0], [0, .4, 0]), P(cone(1.7, 3, 7), 0x48b552, [0, 8.6, 0], [0, .8, 0])]);
+  const round = merge([P(cyl(.4, .6, 4), T, [0, 2, 0]), P(cyl(.18, .25, 2), T, [.8, 3.5, 0], [0, 0, -.7]), P(ico(2.6), 0x5cb83a, [0, 5.6, 0]), P(ico(1.8), 0x75c944, [1.6, 4.7, .6]), P(ico(1.6), 0x4ea832, [-1.4, 5, -.5])]);
+  const poplar = merge([P(cyl(.3, .45, 2.5), T, [0, 1.25, 0]), P(ico(1, 0), 0x3f9c3a, [0, 6, 0], [0, 0, 0], [1.6, 4.6, 1.6]), P(ico(1, 0), 0x56b546, [0, 8, 0], [0, .5, 0], [1.1, 2.6, 1.1])]);
+  const bush = merge([P(ico(1.4), 0x4f9e30, [0, .9, 0]), P(ico(1.1), 0x68b83c, [1.1, .7, .3]), P(ico(.9), 0x3f8f2a, [-.9, .6, -.4])]);
+  return [pine, round, poplar, bush];
+}
+export function rockVariants() {
+  const a = merge([P(new THREE.DodecahedronGeometry(2.2), 0xa49aa8, [0, .8, 0], [0, 0, 0], [1.3, .9, 1.1]), P(new THREE.DodecahedronGeometry(1.2), 0x8c8296, [1.8, .3, .6], [.5, .3, 0])]);
+  const b = merge([P(ico(1.6), 0xb3a58f, [0, 1.6, 0], [.3, 0, .2], [1, 2, 1]), P(ico(1.1), 0x9f9380, [1.2, .7, 0], [0, 1, 0], [1, 1.3, 1])]);
+  return [a, b];
+}
+// ---- buggy: body (merged) + 4 wheels ----
+export function buggy() {
+  const O = 0xff6a1a, D = 0x5a5a66, Y = 0xffd23c, W = 0xf4efe0, B = 0x3a3a46;
+  const tube = (a, b, r = .06) => { const va = new THREE.Vector3(...a), vb = new THREE.Vector3(...b), mid = va.clone().add(vb).multiplyScalar(.5), len = va.distanceTo(vb);
+    const g = cyl(r, r, len, 5); g.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), vb.clone().sub(va).normalize())); g.translate(mid.x, mid.y, mid.z); return P(g, B); };
+  const parts = [
+    P(box(1.5, .28, 3.4), D, [0, .62, 0]),                         // floor pan
+    P(box(1.7, .45, 1.3), O, [0, .9, 1.25]), P(box(1.4, .3, .7), O, [0, .85, 2.1], [-.35, 0, 0]),   // nose
+    P(box(.35, .45, 2.0), O, [-.85, .9, -.2]), P(box(.35, .45, 2.0), O, [.85, .9, -.2]),            // side pods
+    P(box(1.2, .5, 1.0), O, [0, 1.05, -1.35]), P(box(1.0, .2, .8), Y, [0, 1.38, -1.35]), P(cyl(.12, .12, .6, 6), 0x999aa5, [-.35, 1.2, -1.95], [Math.PI / 2, 0, 0]), P(cyl(.12, .12, .6, 6), 0x999aa5, [.35, 1.2, -1.95], [Math.PI / 2, 0, 0]),  // engine + exhausts
+    P(box(1.9, .1, .55), Y, [0, 2.05, -1.65]), P(box(.08, .5, .3), B, [-.7, 1.8, -1.6]), P(box(.08, .5, .3), B, [.7, 1.8, -1.6]),     // wing
+    P(box(.7, .7, .15), 0x3060c0, [0, 1.3, -.55], [-.15, 0, 0]), P(box(.7, .15, .7), 0x3060c0, [0, .9, -.25]),  // seat
+    P(ico(.32, 1), Y, [0, 1.75, -.35]), P(box(.42, .12, .1), B, [0, 1.75, -.08]), P(box(.65, .45, .45), 0x2c7a3a, [0, 1.3, -.35]),  // driver
+    P(box(.3, .2, .1), Y, [-.55, 1.1, 1.93]), P(box(.3, .2, .1), Y, [.55, 1.1, 1.93]), P(box(1.75, .14, .2), W, [0, .74, 2.35]),   // lights, bumper
+    tube([-.65, .8, .6], [-.55, 2.0, .2]), tube([.65, .8, .6], [.55, 2.0, .2]), tube([-.55, 2.0, .2], [.55, 2.0, .2]),
+    tube([-.65, .8, -1.0], [-.55, 2.0, -.9]), tube([.65, .8, -1.0], [.55, 2.0, -.9]), tube([-.55, 2.0, -.9], [.55, 2.0, -.9]),
+    tube([-.55, 2.0, .2], [-.55, 2.0, -.9]), tube([.55, 2.0, .2], [.55, 2.0, -.9]), tube([-.55, 2.0, .2], [.55, 2.0, -.9]),
+    tube([-.65, .8, .6], [-.7, 1.1, 1.6]), tube([.65, .8, .6], [.7, 1.1, 1.6]),
+    tube([-.6, .7, 1.4], [-1.1, .65, 1.45], .07), tube([.6, .7, 1.4], [1.1, .65, 1.45], .07), tube([-.6, .7, -1.4], [-1.1, .65, -1.45], .07), tube([.6, .7, -1.4], [1.1, .65, -1.45], .07),
+    P(box(.05, .05, .05), O, [0, 0, 0]),
+  ];
+  const body = merge(parts);
+  const wheel = merge([P(cyl(.68, .68, .55, 10), 0x26262c, [0, 0, 0], [0, 0, Math.PI / 2]), P(cyl(.4, .4, .58, 6), 0xe8e4d8, [0, 0, 0], [0, 0, Math.PI / 2]),
+    ...[0, 1, 2, 3, 4].map(i => P(box(.6, .14, .3), 0x3a3a44, [0, Math.cos(i * 1.256) * .66, Math.sin(i * 1.256) * .66], [i * 1.256, 0, 0]))]);
+  const flame = merge([P(cone(.28, 1.6, 6), 0xff7a1a, [0, 0, 0], [-Math.PI / 2, 0, 0]), P(cone(.15, 1.0, 6), 0xfff3a0, [0, 0, .2], [-Math.PI / 2, 0, 0])]);
+  return { body, wheel, flame };
+}
+// ---- race furniture for one track: gates with banners, flags, tyre stacks, chevron signs ----
+export function trackProps(cps, heightFn) {
+  const parts = [];
+  cps.forEach((c, i) => {
+    const y = heightFn(c.x, c.z), a = c.ang + Math.PI / 2, ca = Math.cos(a), sa = Math.sin(a);
+    const at = (lx, ly, lz) => [c.x + lx * ca + lz * sa, y + ly, c.z - lx * sa + lz * ca];
+    const pc = i === 0 ? 0xffffff : 0xffcf2a;
+    for (const s of [-11, 11]) { parts.push(P(box(1.1, 7.5, 1.1), 0x333340, at(s, 3.75, 0), [0, a, 0])); parts.push(P(cyl(.9, 1.1, .7, 8), 0x22222a, at(s * 1.18, .35, 0))); parts.push(P(cyl(.9, 1.1, .7, 8), 0xff3b3b, at(s * 1.18, 1.05, 0))); }
+    if (i === 0) { for (let k = 0; k < 12; k++) for (let r = 0; r < 2; r++) parts.push(P(box(1.85, .8, .3), (k + r) % 2 ? 0x111111 : 0xffffff, at(-10.2 + k * 1.85, 6.6 + r * .8, 0), [0, a, 0])); }
+    else parts.push(P(box(22, 1.6, .3), pc, at(0, 6.8, 0), [0, a, 0], [1, 1, 1], i));
+    for (const s of [-12.5, 12.5]) { parts.push(P(cyl(.08, .08, 5, 4), 0x333340, at(s, 2.5, 2))); parts.push(P(box(.05, 1, 1.6), i === 0 ? 0x2a6cff : 0xff3b3b, at(s, 4.4, 2.8), [0, a, 0])); }
+    // chevron sign halfway to next gate
+    const n = cps[(i + 1) % cps.length], mx = (c.x + n.x) / 2, mz = (c.z + n.z) / 2;
+    const dx = mx - c.x, dz = mz - c.z; // signs stand outside the curve at radius offset
+    const off = 14, ox = mx + Math.cos(c.ang) * off, oz = mz - Math.sin(c.ang) * off, yy = heightFn(ox, oz);
+    parts.push(P(cyl(.12, .12, 2.5, 4), 0x333340, [ox, yy + 1.25, oz])); parts.push(P(box(3, 1.2, .15), 0xffd23c, [ox, yy + 2.9, oz], [0, a, 0]));
+  });
+  return merge(parts);
+}

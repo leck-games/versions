@@ -1,0 +1,32 @@
+[
+ {
+  "name": "01-forest-clouds-rain.png",
+  "q": "biome=forest",
+  "setup": "(() => { const {T}=__tt; T.setRain('on'); T.snapWeather(); T.setTimeOfDay(0.40); const s=__tt.S; __tt.setCam(s.x, T.heightAt(s.x,s.z)+70, s.z, 2.2, -0.08); __tt.sim(4); __tt.step(3); return T.stats().weather; })()"
+ },
+ {
+  "name": "02-cloud-shadows.png",
+  "q": "biome=grassland",
+  "setup": "(() => { const {T}=__tt; T.setRain('auto'); T.snapWeather(); T.setTimeOfDay(0.5); __tt.sim(4); const s=__tt.S; let p={x:s.x,z:s.z}; for (let i=0;i<30000;i++){ const a=i*2.39996, r=4*Math.sqrt(i); const x=s.x+Math.cos(a)*r, z=s.z+Math.sin(a)*r; const cv=T.coverageAt(x,z); if (cv>0.4 && cv<0.7 && T.rainAt(x,z)<0.03 && T.heightAt(x,z)>2) { p={x,z}; break; } } __tt.setCam(p.x-60, T.heightAt(p.x,p.z)+75, p.z-40); __tt.lookAt(p.x+60, T.heightAt(p.x,p.z)+20, p.z+40); __tt.sim(0.5); __tt.step(3); return {p, cov:T.coverageAt(p.x,p.z), w:T.stats().weather}; })()"
+ },
+ {
+  "name": "03-grassland-fire.png",
+  "q": "biome=grassland",
+  "setup": "(() => { const {T}=__tt; T.setRain('off'); T.snapWeather(); T.setTimeOfDay(0.62); T.setWind(0.6, 8); const s=__tt.S, c={x:s.x,z:s.z}; __tt.step(2); const lit=T.ignite(c.x, c.z, {radius:5}); __tt.sim(16); __tt.setCam(c.x-55, T.heightAt(c.x,c.z)+30, c.z-45); __tt.lookAt(c.x+8, T.heightAt(c.x,c.z), c.z+8); __tt.step(4); return {lit, fire:T.stats().fire}; })()"
+ },
+ {
+  "name": "04-burnt-ground.png",
+  "q": "biome=grassland",
+  "setup": "(() => { const {T}=__tt; T.setRain('off'); T.snapWeather(); T.setTimeOfDay(0.45); T.setWind(0.6, 8); const s=__tt.S, c={x:s.x,z:s.z}; __tt.step(2); const lit=T.ignite(c.x, c.z, {radius:6}); __tt.sim(40); const mid=T.stats().fire; T.setRain('storm'); T.snapWeather(); __tt.sim(12); T.extinguishAll(); T.setRain('off'); T.snapWeather(); __tt.sim(3); __tt.setCam(c.x-50, T.heightAt(c.x,c.z)+55, c.z-50); __tt.lookAt(c.x+10, T.heightAt(c.x,c.z), c.z+10); __tt.step(4); return {lit, mid, fire:T.stats().fire}; })()"
+ },
+ {
+  "name": "05-burning-trees-night.png",
+  "q": "biome=forest",
+  "setup": "(() => { const F=(yaw,d)=>({x:-Math.sin(yaw)*d,z:-Math.cos(yaw)*d}); const {T}=__tt; T.setRain('off'); T.snapWeather(); T.setTimeOfDay(0.96); const s=__tt.S; const yaw=1.0; const f=F(yaw,45); const c={x:s.x+f.x,z:s.z+f.z}; let n=0; for (const t of T.queryTrees(c.x,c.z,22)) { if (n++<14) T.igniteTree(t.id); } __tt.sim(3); __tt.setCam(s.x, T.heightAt(s.x,s.z)+16, s.z, yaw, -0.12); __tt.step(4); return {lit:n, fire:T.stats().fire}; })()"
+ },
+ {
+  "name": "06-tree-hp-states.png",
+  "q": "biome=forest",
+  "setup": "(() => { const {T}=__tt; T.setRain('off'); T.snapWeather(); T.setTimeOfDay(0.42); const s=__tt.S, c={x:s.x,z:s.z}; __tt.step(2); const all=T.queryTrees(c.x,c.z,30).filter(t=>t.hp>0); const row=all.filter(t=>Math.abs(t.pos.z-c.z)<4 && Math.abs(t.pos.x-c.x)<16).sort((a,b)=>a.pos.x-b.pos.x); const ts=[]; let lastX=-1e9; for (const t of row) if (t.pos.x-lastX>4.5) { ts.push(t); lastX=t.pos.x; } const keep=new Set(ts.slice(0,5).map(t=>t.id)); for (const t of all) if(!keep.has(t.id) && t.pos.z < c.z+2) T.removeTree(t.id); const hp=[3,2,1,0,1]; const out=[]; ts.slice(0,5).forEach((t,i)=>{ out.push([hp[i], +t.pos.x.toFixed(1)]); if(hp[i]===0) T.removeTree(t.id); else if (hp[i]<3) T.damageTree(t.id, 3-hp[i], {dir:{x:1,z:0}}); }); if (ts[4]) T.igniteTree(ts[4].id); __tt.sim(6); const cam={x:c.x,z:c.z-24}; __tt.setCam(cam.x, T.heightAt(cam.x,cam.z)+5, cam.z); __tt.lookAt(c.x, T.heightAt(c.x,c.z)+4.5, c.z); __tt.step(3); return out; })()"
+ }
+]

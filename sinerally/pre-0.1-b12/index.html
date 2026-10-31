@@ -1,0 +1,180 @@
+<!DOCTYPE html><html><head><script>/* versions: frozen snapshot shim (sinerally/pre-0.1-b12) */(function(){var P="vm:sinerally/pre-0.1-b12:",S=Storage.prototype,g=S.getItem,s=S.setItem,r=S.removeItem;function L(t){try{return t===window.localStorage}catch(e){return false}}S.getItem=function(k){return g.call(this,L(this)?P+k:k)};S.setItem=function(k,v){return s.call(this,L(this)?P+k:k,v)};S.removeItem=function(k){return r.call(this,L(this)?P+k:k)};try{if(navigator.serviceWorker)navigator.serviceWorker.register=function(){return Promise.reject(new Error("service workers are disabled in frozen snapshots"))}}catch(e){}})();</script><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='7' fill='%23ff6a1a' stroke='black' stroke-width='2'/></svg>">
+<title>Sine Rally UI</title>
+<style>
+:root{--ink:#111;--paper:#f7e6b5;--y:#ffd23c;--o:#ff6a1a;--g:#38c45a;--r:#e8453c;--b:#3c7ce8;--fs-s:11px;--fs-m:13px;--fs-l:16px;--tap:44px;--rad:8px;--gap:8px;--sl:max(10px,env(safe-area-inset-left));--sr:max(10px,env(safe-area-inset-right));--st:max(6px,env(safe-area-inset-top));--sb:env(safe-area-inset-bottom,0px)}
+html,body{margin:0;height:100%;overflow:hidden;background:#f7e6b5;font-family:"Arial Black","Impact",system-ui,sans-serif;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+canvas{display:block}
+body>canvas:first-child{background:#000} /* WebGL alpha carries the ink-edge code; black backing keeps colours exact in Low (no post) */
+.ink{color:#fff;-webkit-text-stroke:1.5px #111;text-shadow:3px 3px 0 #111;font-style:italic}
+#hud{position:fixed;top:max(6px,env(safe-area-inset-top));left:max(10px,env(safe-area-inset-left));right:max(10px,env(safe-area-inset-right));display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none}
+#spdbox{display:flex;align-items:baseline;gap:6px}#spd{font-size:40px;line-height:1}#unit{font-size:14px}
+#boost{width:150px;height:14px;border:3px solid #111;background:#fff8;transform:skewX(-20deg);margin-top:4px;box-shadow:3px 3px 0 #111}
+#bar{height:100%;background:repeating-linear-gradient(90deg,#ff8a1a 0 8px,#ffd23c 8px 12px);width:100%}
+#air{font-size:22px;color:#ffd23c;margin-top:6px}
+#race{display:none;font-size:17px;text-align:center;padding-top:4px;position:absolute;left:50%;top:0;transform:translateX(-50%);width:max-content;max-width:52vw}#race small{font-size:13px}body.racing #race{display:block}body.racing #wp{top:calc(var(--st) + 44px)}
+#dbg{position:fixed;left:max(10px,env(safe-area-inset-left));bottom:4px;font:bold 11px monospace;white-space:pre;color:#111;background:#fff8;pointer-events:none}
+#mini{position:fixed;right:max(10px,env(safe-area-inset-right));top:max(8px,env(safe-area-inset-top));border-radius:50%;border:4px solid #111;background:#f7e6b5cc;box-shadow:4px 4px 0 #111}
+.sb{background:var(--y);border:3px solid var(--ink);border-radius:6px;padding:5px 9px;font:900 12px "Arial Black",system-ui;color:var(--ink);box-shadow:3px 3px 0 var(--ink);transform:skewX(-8deg);-webkit-tap-highlight-color:transparent}.sb:active{transform:skewX(-8deg) translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+#joy{position:fixed;left:calc(max(12px,env(safe-area-inset-left)) + 88px);bottom:calc(20px + env(safe-area-inset-bottom,0px));width:140px;height:140px;border-radius:50%;background:#fff2;border:4px solid #111c;display:none;box-shadow:4px 4px 0 #1116}
+#knob{position:absolute;left:41px;top:41px;width:50px;height:50px;border-radius:50%;background:#ffd23ce6;border:4px solid #111}
+.btn{position:fixed;width:74px;height:74px;border-radius:50%;border:4px solid #111;color:#fff;font:900 13px "Arial Black",system-ui;display:none;align-items:center;justify-content:center;box-shadow:4px 4px 0 #1119;-webkit-text-stroke:1px #111;opacity:.9}
+.btn.on{transform:translate(3px,3px);box-shadow:1px 1px 0 #111}
+#bGas{right:max(22px,env(safe-area-inset-right));bottom:calc(26px + env(safe-area-inset-bottom,0px));background:#38c45ae0}#bBrk{right:calc(max(22px,env(safe-area-inset-right)) + 92px);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:#e8453ce0}
+/* nitro: bottom-left corner (left thumb, beside the joystick, inside the safe area); drift took boost's old slot above GAS */
+#bBst{left:max(12px,env(safe-area-inset-left));bottom:calc(30px + env(safe-area-inset-bottom,0px));width:70px;height:70px;background:#ff8a1ae0}#bDrf{right:calc(max(22px,env(safe-area-inset-right)) + 14px);bottom:calc(116px + env(safe-area-inset-bottom,0px));background:#3c7ce8e0}
+#bUnl{position:fixed;right:calc(max(22px,env(safe-area-inset-right)) + 104px);bottom:calc(112px + env(safe-area-inset-bottom,0px));display:none;z-index:5}
+/* corner (left of the minimap): ☰ menu + ⚙ quick-settings tray (RESET, GFX, ARC/NRM, UI, TILT, FPS, SOUND) */
+#corner{position:fixed;top:calc(var(--st) + 2px);right:calc(var(--sr) + 146px);display:flex;gap:8px;z-index:7}
+.cb{width:44px;height:40px;padding:0;font-size:19px;line-height:1;display:flex;align-items:center;justify-content:center}#tQuick.sel{background:var(--o);color:#fff}
+#qtray{position:absolute;top:calc(100% + 8px);right:0;display:none;grid-template-columns:repeat(4,80px);gap:8px;padding:8px;background:#f7e6b5f0;border:3px solid var(--ink);border-radius:var(--rad);box-shadow:4px 4px 0 var(--ink)}
+#corner.left #qtray{right:auto;left:0}#corner.up #qtray{top:auto;bottom:calc(100% + 8px)}
+#qtray.on{display:grid}#qtray .sb{height:42px;padding:2px 4px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transform:none}#qtray .sb small{display:block;font:bold 9px Arial,sans-serif;opacity:.7}
+#tHand{background:var(--g);color:#fff;-webkit-text-stroke:.6px #111}#tHand.nrm{background:#8a94a6}#qtray .sb.on{background:var(--o);color:#fff}
+body.ui-min #dbg,body.ui-min #labels,body.ui-min #cans,body.ui-min #carinfo,body.ui-min #air,body.ui-min #race{display:none!important}
+body.ui-min #mini{width:84px;height:84px;border-width:3px}body.ui-min #corner{right:calc(var(--sr) + 98px)}
+body.ui-none #hud,body.ui-none #mini,body.ui-none #cans,body.ui-none #wp,body.ui-none #gauge,body.ui-none #dbg,body.ui-none #labels,body.ui-none #msg,body.ui-none #bUnl{display:none!important}
+body.ui-none #joy,body.ui-none .btn{opacity:0} /* touch zones keep working invisibly */
+body.ui-none #corner{right:var(--sr);opacity:.35}
+#msg{position:fixed;top:36%;width:100%;text-align:center;font-size:44px;pointer-events:none}
+.pop{animation:pop .35s ease-out}@keyframes pop{0%{transform:scale(2.2) rotate(-6deg)}100%{transform:scale(1) rotate(-3deg)}}
+#gauge{position:fixed;left:50%;bottom:calc(4px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);pointer-events:none;filter:drop-shadow(3px 3px 0 #1116)}
+@media (max-height:420px){#gauge{width:160px;height:96px}}
+#rot{position:fixed;inset:0;background:#ffd23c;color:#111;display:none;align-items:center;justify-content:center;font-size:22px;z-index:9}
+@media (orientation:portrait) and (pointer:coarse){#rot{display:flex}}
+#mini{cursor:pointer;pointer-events:auto;z-index:6}
+#cans{display:none;position:fixed;right:max(10px,env(safe-area-inset-right));top:calc(max(8px,env(safe-area-inset-top)) + 140px);width:138px;text-align:center;font:900 13px "Arial Black",system-ui;color:#fff;-webkit-text-stroke:1px #111;text-shadow:2px 2px 0 #111;pointer-events:none}body.hascans #cans{display:block}
+#wp{position:fixed;left:50%;top:max(8px,env(safe-area-inset-top));transform:translateX(-50%);display:none;text-align:center;pointer-events:none;z-index:4}
+#wpA{width:44px;height:44px;margin:0 auto;font:900 34px/44px "Arial Black",system-ui;color:#e8453c;-webkit-text-stroke:2px #111;text-shadow:3px 3px 0 #111}
+#wpD{font:900 13px "Arial Black",system-ui;color:#fff;-webkit-text-stroke:1px #111;text-shadow:2px 2px 0 #111}
+#map{position:fixed;inset:0;display:none;z-index:20;background:#f7e6b5}
+#mapc{position:absolute;inset:0;width:100%;height:100%;cursor:crosshair}
+#mapui{position:absolute;left:max(10px,env(safe-area-inset-left));top:max(8px,env(safe-area-inset-top));display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+#mInfo{font:900 13px "Arial Black",system-ui;color:#fff;-webkit-text-stroke:1px #111;text-shadow:2px 2px 0 #111;margin-left:6px}
+#mList{position:absolute;right:max(10px,env(safe-area-inset-right));top:max(8px,env(safe-area-inset-top));bottom:10px;width:190px;overflow:auto;display:flex;flex-direction:column;gap:6px;font:900 12px "Arial Black",system-ui;color:#111;text-align:right}
+#mList i{background:#fffd;border:2px solid #111;padding:6px;font-style:normal}
+/* ☰ menu: full safe-area sheet, tab rail left, scrollable pane right */
+#menu{position:fixed;left:var(--sl);right:var(--sr);top:var(--st);bottom:max(6px,var(--sb));max-width:900px;margin:0 auto;display:none;z-index:21;background:#f7e6b5f7;border:4px solid var(--ink);box-shadow:6px 6px 0 var(--ink);border-radius:var(--rad);overflow:hidden;grid-template-columns:132px 1fr}
+#menu.on{display:grid}
+#mTabs{display:flex;flex-direction:column;gap:5px;padding:8px;background:var(--ink);overflow:auto}
+#mTabs .mt-t{font:900 13px/1.1 "Arial Black",system-ui;color:var(--y);padding:2px 2px 4px;letter-spacing:.5px}
+.mtab{display:flex;align-items:center;gap:6px;min-height:42px;padding:0 8px;border:3px solid var(--ink);border-radius:6px;background:#3a3a3a;color:#fff;font:900 12px "Arial Black",system-ui;text-align:left;-webkit-tap-highlight-color:transparent}
+.mtab i{font-style:normal;font-size:16px;width:20px;text-align:center}.mtab.on{background:var(--y);color:var(--ink);box-shadow:inset 0 -4px 0 var(--o)}
+#mnClose{margin-top:auto;min-height:40px;transform:none;background:var(--r);color:#fff}
+#mBody{display:flex;flex-direction:column;min-width:0;min-height:0}
+#mHead{display:flex;align-items:center;gap:8px;padding:8px 12px 6px;border-bottom:3px solid var(--ink)}#mHead h3{flex:1;margin:0}
+#mPanes{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:4px 12px 12px;overscroll-behavior:contain}
+.mpane{display:none}.mpane.on{display:block}
+.msec{font:900 11px "Arial Black",system-ui;color:#7a5a20;margin:10px 0 2px;letter-spacing:.6px}
+#menu .mrow .sb,#menu .mbig{min-height:38px}
+.mbig{display:inline-flex;align-items:center;gap:6px;font-size:13px!important;padding:6px 14px!important}
+.mnote{font:bold 11px Arial,sans-serif;opacity:.8;margin:2px 0 6px;max-width:560px}
+#mSnd select{font:900 12px "Arial Black",system-ui;transform:none;max-width:240px}#mSnd input[type=range]{width:140px}
+#menu h3{margin:0 0 6px;font:900 18px "Arial Black",system-ui}
+.mrow{display:flex;gap:8px;align-items:center;margin:8px 0;flex-wrap:wrap}.mrow span{width:150px;font:900 12px "Arial Black",system-ui}
+.sb.sel{background:#ff6a1a;color:#fff}
+/* merged physics module: tree HP labels, pop text, car selector + attachment picker in ☰ */
+#labels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:3}
+.hp{position:absolute;transform:translate(-50%,-100%);font:900 10px "Arial Black",system-ui;text-align:center;white-space:nowrap;color:#fff;-webkit-text-stroke:.6px #111;text-shadow:2px 2px 0 #111}
+.hp .segs{display:flex;gap:2px;justify-content:center;margin-bottom:2px}.hp .seg{width:13px;height:7px;border:2px solid #111;background:#333;position:relative;overflow:hidden;transform:skewX(-12deg)}
+.hp .seg i{position:absolute;left:0;top:0;bottom:0;background:#7fe07f}.hp.hit{font-size:13px;z-index:2}.hp.hit .seg{width:19px;height:10px}
+.ptxt{position:absolute;transform:translate(-50%,-100%);font:900 20px "Arial Black",system-ui;font-style:italic;color:#ff5030;-webkit-text-stroke:1.5px #111;text-shadow:3px 3px 0 #111;transition:transform .9s ease-out,opacity .9s;pointer-events:none}
+#carinfo{font:900 11px "Arial Black",system-ui;margin-top:4px;-webkit-text-stroke:.8px #111;text-shadow:2px 2px 0 #111}
+#mVeh .vsel{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:start;margin:4px 0 8px}
+#mVeh .vprev{width:240px;height:136px;background:radial-gradient(#bfe6ff,#7fc8ff);border:3px solid #111;border-radius:8px}
+#mVeh .vinfo{font:900 11px "Arial Black",system-ui;max-width:300px}#mVeh .vinfo b{font-size:17px}#mVeh .vinfo small{display:block;font:bold 11px Arial,sans-serif;margin:2px 0 4px}
+#mVeh .stats{line-height:1.6}#mVeh .mnt{font:bold 11px Arial,sans-serif;margin-top:4px}#mVeh .pips{font-style:normal;color:#e8302a;letter-spacing:-1px;margin-right:4px}#mVeh .pips u{color:#bbb;text-decoration:none}
+#mVeh .vlist{grid-column:1/3;display:flex;flex-wrap:wrap;gap:6px}
+#mVeh button,#mAtt button{background:#ffd23c;border:3px solid #111;border-radius:6px;padding:5px 9px;font:900 12px "Arial Black",system-ui;color:#111;box-shadow:3px 3px 0 #111;transform:skewX(-8deg)}
+#mVeh button.on,#mAtt button.on{background:#ff6a1a;color:#fff}
+#mAtt .arow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:5px 0}#mAtt .alab{width:58px;font:900 11px "Arial Black",system-ui}#mAtt .adesc{font:bold 11px Arial,sans-serif;margin:-2px 0 4px 64px;max-width:420px}
+@media (max-height:500px){#mVeh .vprev{width:200px;height:113px}#mTabs{gap:4px;padding:6px}.mtab{min-height:40px}}
+/* engine sound editor (☰ → ENGINE SOUND → EDIT): compact side panel, sections collapsed by default */
+#sndEd{position:fixed;right:max(8px,env(safe-area-inset-right));top:max(6px,env(safe-area-inset-top));bottom:max(6px,env(safe-area-inset-bottom));width:min(360px,48vw);display:none;z-index:22;overflow:auto;-webkit-overflow-scrolling:touch;
+  background:#f7e6b5f2;border:4px solid #111;box-shadow:5px 5px 0 #111;padding:6px 8px;font:900 11px "Arial Black",system-ui;color:#111;touch-action:pan-y;-webkit-user-select:none;user-select:none}
+#sndEd .se-h{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px}#sndEd .se-h b{font-size:13px}
+#sndEd .se-lights{width:100%;height:34px;border:3px solid #111;border-radius:6px;cursor:pointer;display:block}
+#sndEd .se-info{font:bold 10px monospace;margin:3px 0}
+#sndEd .se-test{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:4px 0}#sndEd .se-test small{font:bold 10px Arial,sans-serif;opacity:.75}
+#sndEd details{border:3px solid #111;border-radius:6px;margin:5px 0;background:#fff6;padding:0 6px}#sndEd summary{padding:6px 0;cursor:pointer;font-size:12px;list-style-position:inside}
+#sndEd .se-r{display:grid;grid-template-columns:96px 1fr 40px;align-items:center;gap:4px;margin:4px 0}#sndEd .se-r b{font:bold 10px monospace;text-align:right}
+#sndEd .se-r select,#sndEd .se-r input[type=text]{grid-column:2/4;font:900 11px "Arial Black",system-ui;border:2px solid #111;padding:3px;background:#fff;min-width:0}
+#sndEd input[type=range]{width:100%;min-width:0;margin:0;height:22px}
+#sndEd input[type=text],#sndEd textarea{-webkit-user-select:text;user-select:text}
+#sndEd textarea{width:100%;box-sizing:border-box;font:10px monospace;border:2px solid #111;margin:4px 0}
+#sndEd .se-chips{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0}#sndEd .se-chip{min-width:30px;height:28px;border:3px solid #111;border-radius:50%;background:#3a2a1a;color:#ffd23c;font:900 11px "Arial Black",system-ui}
+#sndEd .se-chip.on{background:#ffd23c;color:#111}#sndEd .se-sub{font-size:11px;margin:4px 0}
+#sndEd .se-note{font:bold 10px Arial,sans-serif;opacity:.8;margin:2px 0 6px}#sndEd .se-row{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin:5px 0}
+#sndEd .se-lights.se-viz{height:150px;background:#fff3cf}#sndEd .se-hb{display:flex;gap:6px}#sndEd .se-h .sb{min-width:38px;height:34px;padding:0 8px}
+#sndEd .se-seg>div{grid-column:2/4;display:flex;gap:4px;flex-wrap:wrap}#sndEd .se-seg .sb{padding:4px 7px;font-size:10px;transform:none;box-shadow:2px 2px 0 #111}
+#sndEd .se-test .se-seg{flex:1;margin:0}#sndEd .se-mono{font:bold 10px monospace;margin:3px 0 6px;line-height:1.4;word-break:break-word}
+#sndEd .se-chip.b0{box-shadow:inset 0 -4px 0 #ff6a1a}#sndEd .se-chip.b1{box-shadow:inset 0 -4px 0 #1ac8ff}
+#sndEd .sb{min-height:30px}#sndEd.live{background:#f7e6b5e0;right:auto;left:50%;transform:translateX(-50%);width:min(360px,calc(100vw - 480px));min-width:300px;bottom:calc(var(--sb) + 104px)}#mSnd>h3:first-child{display:none}
+#sndEd.mini{bottom:auto;left:50%;right:auto;transform:translateX(-50%);top:calc(var(--st) + 2px);width:min(300px,40vw);height:36px;box-sizing:border-box;overflow:hidden;padding:3px 5px;display:flex!important;align-items:center;gap:6px;flex-direction:row-reverse}
+#sndEd.mini>*:not(.se-h):not(.se-lights){display:none}#sndEd.mini .se-h{margin:0}#sndEd.mini .se-h b{display:none}#sndEd.mini .se-h .sb{height:26px;min-height:0;min-width:30px}#sndEd.mini .se-lights{height:24px;flex:1;min-width:0;border-width:2px}
+#sndEd .se-row input[type=text]{width:110px;font:900 11px "Arial Black",system-ui;border:2px solid #111;padding:4px}#sndEd .se-named{display:inline-flex;gap:2px}
+</style><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Sine Rally UI">
+<meta name="theme-color" content="#ff6a1a"><meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>/* iOS home-screen */canvas{touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}#allBuilds{display:inline-block;text-decoration:none;font:900 12px "Arial Black",system-ui,sans-serif;color:#111;background:#fff;border:3px solid #111;border-radius:6px;padding:5px 9px;box-shadow:3px 3px 0 #111;-webkit-tap-highlight-color:transparent}/* SineRally UI: plane HUD (artificial horizon, throttle slider, rudder) — shown in plane mode, editable in the UI editor */
+#pAtt{position:fixed;left:calc(50% - 30px);top:calc(max(6px,env(safe-area-inset-top)) + 46px);width:210px;height:104px;display:none;pointer-events:none;filter:drop-shadow(3px 3px 0 #1116)}
+#pThr{position:fixed;right:calc(max(22px,env(safe-area-inset-right)) + 186px);bottom:calc(16px + env(safe-area-inset-bottom,0px));width:44px;height:150px;display:none;border:4px solid #111;border-radius:10px;background:#fff3;box-shadow:4px 4px 0 #1118;touch-action:none;overflow:hidden;z-index:4}
+#pThrF{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(#ff8a1a,#ffd23c)}#pThrV{position:absolute;left:0;right:0;top:4px;text-align:center;font:900 12px "Arial Black",system-ui;color:#fff;-webkit-text-stroke:.8px #111}
+#pThr::after{content:"THR";position:absolute;left:0;right:0;bottom:4px;text-align:center;font:900 10px "Arial Black",system-ui;color:#111}
+#pRud{position:fixed;left:max(12px,env(safe-area-inset-left));bottom:calc(24px + env(safe-area-inset-bottom,0px));display:none;flex-direction:column;gap:10px}
+#pRud .sb{width:52px;height:44px;padding:0;font-size:15px;opacity:.9}#pRud .sb.on{background:#ff6a1a;color:#fff}
+body.plane #pAtt,body.plane #pThr{display:block}body.plane.touch #pRud{display:flex}body.plane #bUnl{display:none!important}body.plane.noab #bBst,body.plane.noab #boost{display:none!important}
+body.plane #carinfo{display:block}body.plane #race{display:none!important}body.ui-none #pAtt{display:none!important}body.ui-none #pThr,body.ui-none #pRud{opacity:0}
+@media (max-height:420px){#pThr{height:130px}}
+</style>
+<style>/* SineRally UI: custom HUD layout (js/ui-editor.js). Per-element opacity x global opacity; hidden flag; edit mode overlay */
+.uie{opacity:calc(var(--uo,1) * var(--ugo,1))}.uie.uie-sub{opacity:var(--uo,1)}.uie-h{display:none!important}
+body.uied .uie{display:block!important}body.uied .uie-f{display:flex!important}body.uied .uie-h{opacity:.3!important;outline:3px dashed #e8302a}
+#uiedL{position:fixed;inset:0;z-index:40;display:none;touch-action:none;background-color:#0000001c;background-image:linear-gradient(#00000012 1px,transparent 1px),linear-gradient(90deg,#00000012 1px,transparent 1px);background-size:8px 8px}
+#uiedL .ue-safe{position:absolute;border:2px dashed #ff6a1aaa;box-sizing:border-box;pointer-events:none}
+.uih{position:absolute;box-sizing:border-box;border:2px dashed #111;background:#ffd23c38;border-radius:6px;cursor:move}.uih.sub{border-style:dotted;background:#fff3}.uih.hid{background:#e8302a33}
+.uih.sel{border:3px solid #ff6a1a;background:#ff6a1a40;box-shadow:0 0 0 2px #fff}
+.uih i{position:absolute;left:-2px;top:-14px;font:900 9px/12px "Arial Black",system-ui;font-style:normal;background:#111;color:#ffd23c;padding:0 4px;white-space:nowrap;pointer-events:none;border-radius:3px}
+.uih.sel i{background:#ff6a1a;color:#fff}
+#uiedP{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:41;display:none;width:min(430px,60vw);max-height:calc(100vh - 20px);overflow:auto;-webkit-overflow-scrolling:touch;box-sizing:border-box;
+  background:#f7e6b5f0;border:4px solid #111;box-shadow:5px 5px 0 #111;padding:4px 7px 6px;font:900 10px "Arial Black",system-ui;color:#111;touch-action:pan-y}
+#uiedP .ue-h{display:flex;align-items:center;gap:6px;cursor:move;touch-action:none}#uiedP .ue-h b{font-size:13px}#uiedP .ue-hint{flex:1;font:bold 9px Arial,sans-serif;opacity:.7}
+#uiedP.col .ue-body{display:none}#uiedP .sb{padding:3px 7px;font-size:10px;box-shadow:2px 2px 0 #111;border-width:2px}#uiedP .ue-done{background:#38c45a;color:#fff;-webkit-text-stroke:.5px #111}
+#uiedP .ue-sel,#uiedP .ue-row{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin:5px 0}#uiedP .ue-row>span{width:52px}#uiedP .ue-name{min-width:84px;color:#ff6a1a;-webkit-text-stroke:.4px #111}
+#uiedP input[type=range]{width:80px;margin:0}#uiedP small{font:bold 9px Arial,sans-serif;opacity:.8}
+#uiedP .ue-chips{display:flex;flex-wrap:wrap;gap:3px;margin:4px 0}#uiedP .ue-chip{font:900 9px "Arial Black",system-ui;border:2px solid #111;border-radius:10px;background:#fff;padding:2px 6px;color:#111}
+#uiedP .ue-chip.on{background:#ff6a1a;color:#fff}#uiedP .ue-chip.off{text-decoration:line-through;opacity:.6}
+#uiedP .ue-slot{display:inline-flex;gap:3px;align-items:center;font-style:normal;margin-right:4px}#uiedP .ue-slot small{width:58px}
+#uiedP textarea{width:100%;box-sizing:border-box;font:10px monospace;border:2px solid #111;-webkit-user-select:text;user-select:text}
+</style>
+</head><body>
+<div id="hud"><div id="spdgrp"><div id="spdbox" class="ink"><span id="spd">0</span><span id="unit">KM/H</span></div><div id="boost"><div id="bar"></div></div><div id="air" class="ink"></div><div id="carinfo" class="ink"></div></div>
+<div id="race" class="ink"></div><div style="width:140px"></div></div>
+<canvas id="mini" width="130" height="130" title="World map (M)"></canvas><div id="cans">⛽ 0</div>
+<div id="wp"><div id="wpA">▲</div><div id="wpD"></div></div>
+<div id="map"><canvas id="mapc"></canvas><div id="mapui"><button class="sb" id="mClose">✕ BACK</button><button class="sb" id="mZin">＋</button><button class="sb" id="mZout">－</button><button class="sb" id="mClr">CLEAR WAYPOINT</button><span id="mInfo"></span></div><div id="mList"></div></div>
+<div id="menu" role="dialog" aria-label="Menu"><nav id="mTabs"><b class="mt-t">SINE RALLY<br>UI</b>
+<button class="mtab" data-tab="drive"><i>🏁</i><em id="mtDrive" style="font-style:normal">DRIVE</em></button><button class="mtab" data-tab="vehicle"><i>🚗</i>VEHICLE</button><button class="mtab" data-tab="sound"><i>🔊</i>SOUND</button><button class="mtab" data-tab="gfx"><i>✨</i>GRAPHICS</button><button class="mtab" data-tab="hud"><i>🎮</i>CONTROLS</button><button class="mtab" data-tab="world"><i>🌍</i>WORLD</button>
+<button class="sb" id="mnClose">✕ CLOSE</button></nav>
+<section id="mBody"><div id="mHead"><h3 id="mTitle">DRIVE</h3><a id="allBuilds" href="https://leck-games.github.io/">‹ ALL BUILDS</a></div><div id="mPanes">
+<div class="mpane" data-pane="drive"><div id="mRows"></div></div>
+<div class="mpane" data-pane="vehicle"><div id="mVeh"></div><div id="mAtt"></div></div>
+<div class="mpane" data-pane="sound"><div id="mSnd"></div></div>
+<div class="mpane" data-pane="gfx"><div id="mGfx"></div></div>
+<div class="mpane" data-pane="hud"><div id="mHud"></div></div>
+<div class="mpane" data-pane="world"><div id="mWorld"></div></div>
+</div></section></div>
+<div id="corner"><button class="sb cb" id="tMenu" title="Menu (Esc)" aria-label="Menu">☰</button><button class="sb cb" id="tQuick" title="Quick settings (Q)" aria-label="Quick settings">⚙</button>
+<div id="qtray"><button class="sb" id="tReset">⟲ RESET</button><button class="sb" id="tQ">GFX</button><button class="sb" id="tHand" title="Handling (H)">ARC</button><button class="sb" id="tUi" title="HUD mode (U)">◉ FULL</button><button class="sb" id="tTilt">TILT</button><button class="sb" id="tDbg">FPS</button><button class="sb" id="tSnd" data-snd-own title="Engine sound mute">🔊 ON</button><button class="sb" id="tMap">🗺 MAP</button></div></div>
+<div id="dbg"></div>
+<div id="joy"><div id="knob"></div></div>
+<div class="btn" id="bGas">GAS</div><div class="btn" id="bBrk">BRAKE</div><div class="btn" id="bBst">BOOST</div><div class="btn" id="bDrf">DRIFT</div>
+<canvas id="gauge" width="200" height="120"></canvas>
+<canvas id="pAtt" width="210" height="104"></canvas><div id="pThr"><div id="pThrF"></div><div id="pThrV">0</div></div><div id="pRud"><button class="sb" id="pRL">◀R</button><button class="sb" id="pRR">R▶</button></div>
+<button class="sb" id="bUnl">UNLOAD</button>
+<div id="labels"></div><div id="msg" class="ink"></div><div id="rot">ROTATE TO LANDSCAPE ↻</div>
+<script type="importmap">{"imports":{"three":"./js/three.module.js"}}</script>
+<script type="module" src="js/main.js"></script>
+</body></html>

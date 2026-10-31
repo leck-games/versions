@@ -1,0 +1,75 @@
+{
+ "projects": [
+  {"id": "sinerally", "name": "Sine Rally", "tagline": "The game. It started as a prototype, became the classic build (leck-games/sinerally) and continues as sinerally-ui, which is Sine Rally V0.1.", "color": "#ff6a1a",
+   "repos": [{"dir": "/workspace/sinerally", "gh": "leck-games/sinerally"}, {"dir": "/workspace/sinerally-ui", "gh": "leck-games/sinerally-ui"}],
+   "live": "https://leck-games.github.io/sinerally-ui/",
+   "versions": [
+    {"slug": "pre-0.1-b1", "label": "pre-0.1 build 1", "repo": "leck-games/sinerally", "commit": "0326ea6", "title": "Prototype", "query": "",
+     "desc": "The first playable Sine Rally, where it all started. An endless math world made only of sine waves (no stored heightmap), procedurally generated dirt race tracks with 8 gates, a buggy with jumps, drift and boost, and touch joystick controls."},
+    {"slug": "pre-0.1-b2", "label": "pre-0.1 build 2", "repo": "leck-games/sinerally", "commit": "05b7d71", "title": "Comic look",
+     "desc": "Graphics overhaul into the comic / cel-shaded style: ink outlines, cel + hatching shaders, stylized terrain, water and sky, a new buggy and props, quality toggle."},
+    {"slug": "pre-0.1-b3", "label": "pre-0.1 build 3", "repo": "leck-games/sinerally", "commit": "42ead1c", "title": "Merged release",
+     "desc": "The prototype merged with the engine build: rigid-body 4x4 physics, 5 terrain regions, a road graph with bridges, GPU grass, near/far terrain and a gauge HUD, all rendered in comic shading."},
+    {"slug": "pre-0.1-b4", "label": "pre-0.1 build 4", "repo": "leck-games/sinerally", "commit": "93a6b4f", "title": "Free roam",
+     "desc": "Free-roam release: breakable trees and props, handling assists, 3 vehicles, day/night with weather, fuel cans, vistas, a world map with waypoint + teleport. Comic style on every GFX level."},
+    {"slug": "pre-0.1-b5", "label": "pre-0.1 build 5", "repo": "leck-games/sinerally", "commit": "a46b2a2", "title": "Engine sound plugins",
+     "desc": "Engine Sound Plugin API v1: the game hosts engine-sound plugins (Engine Sim vendored, plus a simple example) chosen from the menu."},
+    {"slug": "pre-0.1-b6", "label": "pre-0.1 build 6", "repo": "leck-games/sinerally", "commit": "ded2b8b", "title": "iPhone home screen",
+     "desc": "Installs as an iOS home-screen app: icons, manifest, safe-area layout, touch guards and an 'All builds' link to the launcher."},
+    {"slug": "pre-0.1-b7", "label": "pre-0.1 build 7", "repo": "leck-games/sinerally", "commit": "7996819", "title": "New grass",
+     "desc": "Grass ported from the engine build: smooth root-to-tip gradient, paler greener blades; black-grass bug fixed and rain darkens the blades."},
+    {"slug": "pre-0.1-b8", "label": "pre-0.1 build 8", "repo": "leck-games/sinerally", "commit": "957c2a5", "title": "Physics + terrain merge",
+     "desc": "The physics and terrain modules join the game: 5 cars with attachments, trees with HP, grass fire from engine heat, forest weather, and the in-game engine sound editor (Engine Sim 1.1 with rotary engines)."},
+    {"slug": "pre-0.1-b9", "label": "pre-0.1 build 9", "repo": "leck-games/sinerally", "commit": "b93c3b6", "title": "Classic final",
+     "desc": "Final build of the classic game (repo frozen here): the harvester melts trees at any speed, wider roads, ARCADE handling by default, FULL / MINIMAL / NONE UI modes."},
+    {"slug": "pre-0.1-b10", "label": "pre-0.1 build 10", "repo": "leck-games/sinerally-ui", "commit": "b4af213", "title": "HUD layout editor",
+     "desc": "First Sine Rally UI build: a fork of the classic final with a fully customizable touch HUD. Move, scale, fade or hide every control in the layout editor."},
+    {"slug": "pre-0.1-b11", "label": "pre-0.1 build 11", "repo": "leck-games/sinerally-ui", "commit": "474b5dd", "title": "Planes + graphics levels",
+     "desc": "Flyable planes (bush cub, stunt plane, jet) on procedural airfields with a flight HUD, plus LOW / MED / HIGH / ULTRA graphics with HD road textures."},
+    {"slug": "pre-0.1-b12", "label": "pre-0.1 build 12", "repo": "leck-games/sinerally-ui", "commit": "e38ddb0", "title": "UI redesign",
+     "desc": "Big UI redesign: corner ☰ ⚙ buttons with a quick tray, a tabbed safe-area menu, a context-aware HUD and an engine editor matching the Engine Sim demo."},
+    {"slug": "pre-0.1-b13", "label": "pre-0.1 build 13", "repo": "leck-games/sinerally-ui", "commit": "7704662", "title": "Comic tree LOD",
+     "desc": "Trees use one comic impostor LOD at every distance (138k fewer forest triangles) with trunk cracks, so forests are cheaper and look consistent."},
+    {"slug": "pre-0.1-b14", "label": "pre-0.1 build 14", "repo": "leck-games/sinerally-ui", "commit": "f6c3fbe", "title": "Race rings + compass",
+     "desc": "Race starts become glowing rings with light pillars, a FUEL-style 360° compass appears at the top, and checkpoint gates turn to face along the track."},
+    {"slug": "v0.1", "label": "V0.1", "repo": "leck-games/sinerally-ui", "commit": "6444cde", "title": "Sine Rally V0.1", "release": "https://github.com/leck-games/sinerally-ui/releases/tag/v0.1", "badges": ["V0.1"],
+     "desc": "The first numbered release. Everything in the earlier builds, plus a compact checkpoint toast with best splits, and the next checkpoint and waypoint shown as compass badges (edge arrows when behind you). Version tag in the menu with a link back here."}
+   ]},
+  {"id": "engine", "name": "Sine Rally Engine", "tagline": "The engine test build: physics, terrain and roads before the comic merge.", "color": "#4fb3ff",
+   "repos": [{"dir": "/workspace/sinerally-engine", "gh": "leck-games/sinerally-engine"}], "live": "https://leck-games.github.io/sinerally-engine/",
+   "versions": [
+    {"slug": "0.0.1", "label": "0.0.1", "repo": "leck-games/sinerally-engine", "commit": "dc24ec1", "title": "Engine build",
+     "desc": "Rigid-body vehicle physics, multi-region math terrain, a road graph with bridges, instanced grass and a gauge HUD."},
+    {"slug": "0.0.2", "label": "0.0.2", "repo": "leck-games/sinerally-engine", "commit": "7985921", "title": "iPhone home screen",
+     "desc": "The same engine build, installable as an iOS home-screen app (icons, manifest, safe area, touch guards)."}
+   ]},
+  {"id": "enginesim", "name": "Engine Sim", "tagline": "The procedural engine sound simulator that powers Sine Rally's engine audio.", "color": "#38c45a",
+   "repos": [{"dir": "/workspace/engine-sim", "gh": "leck-games/sinerally-enginesim"}], "live": "https://leck-games.github.io/sinerally-enginesim/",
+   "versions": [
+    {"slug": "0.0.1", "label": "0.0.1", "repo": "leck-games/sinerally-enginesim", "commit": "3a34a97", "title": "First engine sound",
+     "desc": "A procedural per-cylinder engine sound simulator with firing lights. Build an engine and rev it."},
+    {"slug": "0.0.2", "label": "0.0.2", "repo": "leck-games/sinerally-enginesim", "commit": "4ce73f5", "title": "Plugin API",
+     "desc": "Engine Sound Plugin API v1, the interface the game uses to load Engine Sim. The standalone page hosts the plugin itself."},
+    {"slug": "0.0.3", "label": "0.0.3", "repo": "leck-games/sinerally-enginesim", "commit": "447c965", "title": "Rotary + 16 cylinders",
+     "desc": "Rotary engines with 1 to 16 rotors, inline / V / boxer up to 16 cylinders, plugin v1.1 that lets a host read and set the engine config, and a fix for iPhone sound when the silent switch is on."}
+   ]},
+  {"id": "physics", "name": "Physics Lab", "tagline": "Standalone test page for the vehicles, attachments and damage module.", "color": "#e8453c",
+   "repos": [{"dir": "/workspace/sinerally-physics", "gh": "leck-games/sinerally-physics"}], "live": "https://leck-games.github.io/sinerally-physics/",
+   "versions": [
+    {"slug": "0.0.1", "label": "0.0.1", "repo": "leck-games/sinerally-physics", "commit": "3577fca", "title": "Vehicles + attachments",
+     "desc": "The physics / vehicles / attachments modules with a standalone test page: tree HP, engine heat, car selector."},
+    {"slug": "0.0.2", "label": "0.0.2", "repo": "leck-games/sinerally-physics", "commit": "5dfd424", "title": "Harvester + arcade handling",
+     "desc": "The harvester melts anything at any speed, ARCADE handling (default) with a NORMAL toggle, plus drift / slalom / landing / top-speed tests."}
+   ]},
+  {"id": "terrain", "name": "Terrain", "tagline": "Standalone test build for biomes, forests, fire and weather.", "color": "#2f8f4e",
+   "repos": [{"dir": "/workspace/sinerally-terrain", "gh": "leck-games/sinerally-terrain"}], "live": "https://leck-games.github.io/sinerally-terrain/",
+   "versions": [
+    {"slug": "0.0.1", "label": "0.0.1", "repo": "leck-games/sinerally-terrain", "commit": "ba81dde", "title": "Biomes + fire",
+     "desc": "The terrain module: biomes, trees with 3 HP, grass fire and forest weather in a comic test build."},
+    {"slug": "0.0.2", "label": "0.0.2", "repo": "leck-games/sinerally-terrain", "commit": "3e6d3c9", "title": "New grass",
+     "desc": "Grass gets the engine-build look (smooth root-to-tip gradient, paler greener blades), now on the iOS home-screen-ready build."},
+    {"slug": "0.0.3", "label": "0.0.3", "repo": "leck-games/sinerally-terrain", "commit": "0b2e409", "title": "Wider roads",
+     "desc": "Highways twice as wide (24 m), dirt trails and loops 1.5x, bridges check both road edges."}
+   ]}
+ ]
+}

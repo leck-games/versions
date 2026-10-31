@@ -1,0 +1,45 @@
+<!DOCTYPE html><html><head><script>/* versions: frozen snapshot shim (sinerally/pre-0.1-b3) */(function(){var P="vm:sinerally/pre-0.1-b3:",S=Storage.prototype,g=S.getItem,s=S.setItem,r=S.removeItem;function L(t){try{return t===window.localStorage}catch(e){return false}}S.getItem=function(k){return g.call(this,L(this)?P+k:k)};S.setItem=function(k,v){return s.call(this,L(this)?P+k:k,v)};S.removeItem=function(k){return r.call(this,L(this)?P+k:k)};try{if(navigator.serviceWorker)navigator.serviceWorker.register=function(){return Promise.reject(new Error("service workers are disabled in frozen snapshots"))}}catch(e){}})();</script><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='7' fill='%23ff6a1a' stroke='black' stroke-width='2'/></svg>">
+<title>SineRally</title>
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#f7e6b5;font-family:"Arial Black","Impact",system-ui,sans-serif;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+canvas{display:block}
+body>canvas:first-child{background:#000} /* WebGL alpha carries the ink-edge code; black backing keeps colours exact in Low (no post) */
+.ink{color:#fff;-webkit-text-stroke:1.5px #111;text-shadow:3px 3px 0 #111;font-style:italic}
+#hud{position:fixed;top:max(6px,env(safe-area-inset-top));left:max(10px,env(safe-area-inset-left));right:max(10px,env(safe-area-inset-right));display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none}
+#spdbox{display:flex;align-items:baseline;gap:6px}#spd{font-size:40px;line-height:1}#unit{font-size:14px}
+#boost{width:150px;height:14px;border:3px solid #111;background:#fff8;transform:skewX(-20deg);margin-top:4px;box-shadow:3px 3px 0 #111}
+#bar{height:100%;background:repeating-linear-gradient(90deg,#ff8a1a 0 8px,#ffd23c 8px 12px);width:100%}
+#air{font-size:22px;color:#ffd23c;margin-top:6px}
+#race{font-size:17px;text-align:center;padding-top:4px}#race small{font-size:13px}
+#dbg{position:fixed;left:max(10px,env(safe-area-inset-left));bottom:4px;font:bold 11px monospace;white-space:pre;color:#111;background:#fff8;pointer-events:none}
+#mini{position:fixed;right:max(10px,env(safe-area-inset-right));top:max(8px,env(safe-area-inset-top));border-radius:50%;border:4px solid #111;background:#f7e6b5cc;box-shadow:4px 4px 0 #111}
+#topbtns{position:fixed;left:max(10px,env(safe-area-inset-left));top:calc(max(6px,env(safe-area-inset-top)) + 90px);display:flex;gap:6px}
+.sb{background:#ffd23c;border:3px solid #111;border-radius:6px;padding:5px 9px;font:900 12px "Arial Black",system-ui;color:#111;box-shadow:3px 3px 0 #111;transform:skewX(-8deg)}
+#joy{position:fixed;left:max(30px,env(safe-area-inset-left));bottom:26px;width:140px;height:140px;border-radius:50%;background:#fff3;border:4px solid #111;display:none;box-shadow:4px 4px 0 #1118}
+#knob{position:absolute;left:41px;top:41px;width:50px;height:50px;border-radius:50%;background:#ffd23c;border:4px solid #111}
+.btn{position:fixed;width:74px;height:74px;border-radius:50%;border:4px solid #111;color:#fff;font:900 13px "Arial Black",system-ui;display:none;align-items:center;justify-content:center;box-shadow:4px 4px 0 #111;-webkit-text-stroke:1px #111}
+.btn.on{transform:translate(3px,3px);box-shadow:1px 1px 0 #111}
+#bGas{right:max(22px,env(safe-area-inset-right));bottom:26px;background:#38c45a}#bBrk{right:calc(max(22px,env(safe-area-inset-right)) + 92px);bottom:16px;background:#e8453c}
+#bBst{right:calc(max(22px,env(safe-area-inset-right)) + 14px);bottom:116px;background:#ff8a1a}#bDrf{right:calc(max(22px,env(safe-area-inset-right)) + 104px);bottom:104px;background:#3c7ce8}
+#msg{position:fixed;top:36%;width:100%;text-align:center;font-size:44px;pointer-events:none}
+.pop{animation:pop .35s ease-out}@keyframes pop{0%{transform:scale(2.2) rotate(-6deg)}100%{transform:scale(1) rotate(-3deg)}}
+#gauge{position:fixed;left:50%;bottom:calc(4px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);pointer-events:none;filter:drop-shadow(3px 3px 0 #1116)}
+@media (max-height:420px){#gauge{width:160px;height:96px}}
+#rot{position:fixed;inset:0;background:#ffd23c;color:#111;display:none;align-items:center;justify-content:center;font-size:22px;z-index:9}
+@media (orientation:portrait) and (pointer:coarse){#rot{display:flex}}
+</style></head><body>
+<div id="hud"><div><div id="spdbox" class="ink"><span id="spd">0</span><span id="unit">KM/H</span></div><div id="boost"><div id="bar"></div></div><div id="air" class="ink"></div></div>
+<div id="race" class="ink"></div><div style="width:140px"></div></div>
+<canvas id="mini" width="130" height="130"></canvas>
+<div id="topbtns"><button class="sb" id="tReset">⟲ RESET</button><button class="sb" id="tQ">GFX</button><button class="sb" id="tTilt">Tilt: off</button><button class="sb" id="tDbg">FPS</button></div>
+<div id="dbg"></div>
+<div id="joy"><div id="knob"></div></div>
+<div class="btn" id="bGas">GAS</div><div class="btn" id="bBrk">BRAKE</div><div class="btn" id="bBst">BOOST</div><div class="btn" id="bDrf">DRIFT</div>
+<canvas id="gauge" width="200" height="120"></canvas>
+<div id="msg" class="ink"></div><div id="rot">ROTATE TO LANDSCAPE ↻</div>
+<script type="importmap">{"imports":{"three":"./js/three.module.js"}}</script>
+<script type="module" src="js/main.js"></script>
+</body></html>

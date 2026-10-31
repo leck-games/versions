@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en"><head><script>/* versions: frozen snapshot shim (physics/0.0.2) */(function(){var P="vm:physics/0.0.2:",S=Storage.prototype,g=S.getItem,s=S.setItem,r=S.removeItem;function L(t){try{return t===window.localStorage}catch(e){return false}}S.getItem=function(k){return g.call(this,L(this)?P+k:k)};S.setItem=function(k,v){return s.call(this,L(this)?P+k:k,v)};S.removeItem=function(k){return r.call(this,L(this)?P+k:k)};try{if(navigator.serviceWorker)navigator.serviceWorker.register=function(){return Promise.reject(new Error("service workers are disabled in frozen snapshots"))}}catch(e){}})();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Sine Rally - Physics Lab</title>
+<link rel="stylesheet" href="host/style.css">
+<script type="importmap">{ "imports": { "three": "./lib/three.module.js" } }</script>
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="SR Physics">
+<meta name="theme-color" content="#e8453c"><meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<style>/* iOS home-screen */canvas{touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}#allBuilds{display:inline-block;text-decoration:none;font:900 12px "Arial Black",system-ui,sans-serif;color:#111;background:#fff;border:3px solid #111;border-radius:6px;padding:5px 9px;box-shadow:3px 3px 0 #111;-webkit-tap-highlight-color:transparent}</style>
+</head><body>
+<canvas id="c"></canvas>
+<div id="labels"></div>
+<div id="hud">
+  <div id="spdBox"><span id="spd">0</span><small>km/h</small><div id="gear">1</div><div class="bar" id="rpmBar"><i></i></div><div class="bar nitro" id="nitroBar"><i></i></div></div>
+  <div id="tempBox"><div id="gauge"><div id="needle"></div><div id="gaugeHub"></div></div><div id="tempTxt">70&deg;C</div><div id="tempWarn"></div></div>
+  <div id="stat"><div>CAR <b id="carName">BUGGY</b></div><div>DMG <span class="bar dmg" id="dmgBar"><i></i></span> <b id="dmgTxt">0%</b></div><div>LOGS <b id="logs">0/0</b> &middot; <b id="mass">1500</b> kg</div><div id="parts"></div></div>
+  <div id="evlog"></div>
+  <div id="topBtns"><button id="bMenu">MENU</button><button id="bReset">RESET</button><button id="bMode" title="handling: ARCADE / NORMAL">ARC</button></div>
+  <div id="help">WASD/arrows drive &middot; SHIFT nitro &middot; SPACE drift &middot; gas+brake standing = rev (heat) &middot; R reset &middot; M menu</div>
+</div>
+<div id="touch">
+  <div id="joy"><div id="knob"></div></div>
+  <div id="tbtns"><button id="bBst">N2O</button><button id="bDrf">DRIFT</button><button id="bBrk">BRAKE</button><button id="bGas">GAS</button></div>
+</div>
+<div id="menu" class="hidden">
+  <div class="mpanel">
+    <div class="tabs"><button data-tab="car" class="on">CAR</button><button data-tab="parts">PARTS</button><button data-tab="lab">LAB</button><button id="bDrive" class="go">DRIVE &#9654;</button><a id="allBuilds" href="https://leck-games.github.io/">‹ ALL BUILDS</a></div>
+    <div class="tab" id="tab-car"></div>
+    <div class="tab hidden" id="tab-parts"><div id="picker"></div><div class="row"><button id="bUnload">UNLOAD LOGS</button></div></div>
+    <div class="tab hidden" id="tab-lab">
+      <div class="row"><span class="alab">GO TO</span><button data-tp="strip">SPEED STRIP (gates z=700)</button><button data-tp="practice">PRACTICE ROW</button><button data-tp="forest">FOREST (harvest)</button></div>
+      <div class="row"><span class="alab">FIX</span><button id="bRepair">REPAIR + COOL</button><button id="bRegrow">REGROW TREES</button></div>
+      <div class="row"><span class="alab">CHEAT</span><button id="bInfN2O">INFINITE N2O: OFF</button><button id="bStab">STABILITY: ON</button></div>
+      <div class="row"><span class="alab">FEEL</span><button id="bHandling">HANDLING: ARCADE</button></div>
+      <p class="note">Tree HP: 3. &ge;300 km/h smashes through (SINE GT + N2O on the strip). &le;200 km/h: damage scales with speed &times; angle. Harvester: melts any tree in its path at any speed (1 log per HP, logs capped), -10% top speed.</p>
+    </div>
+  </div>
+</div>
+<div id="err"></div>
+<script type="module" src="host/main.js"></script>
+</body></html>

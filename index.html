@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="SR Versions">
+<meta name="theme-color" content="#ffd23f"><meta name="format-detection" content="telephone=no">
+<meta name="description" content="Every Sine Rally build, frozen and playable: version manager with descriptions and full changelogs.">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="preload" href="fonts/bangers.woff2" as="font" type="font/woff2" crossorigin>
+<title>Sine Rally · Versions</title>
+<style>
+@font-face{font-family:Bangers;src:url(fonts/bangers.woff2) format("woff2");font-display:swap}
+:root{--ink:#111;--paper:#f7e6b5;--yel:#ffd23f;--org:#ff6a1a;--f:Bangers,"Arial Black",Impact,system-ui,sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--yel);-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;color:var(--ink);font:600 15px/1.35 system-ui,-apple-system,sans-serif;
+ background:var(--paper) radial-gradient(#e7cf8c 1.3px,transparent 1.8px) 0 0/10px 10px;
+ padding:max(14px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))}
+a{color:inherit}
+.ink{font-family:var(--f);font-weight:400;letter-spacing:1px;color:#fff;-webkit-text-stroke:2px var(--ink);paint-order:stroke fill;text-shadow:3px 3px 0 var(--ink)}
+.wrap{max-width:1100px;margin:0 auto}
+header{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+header img{width:56px;height:56px;border:3px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);flex:none}
+h1{margin:0;font-size:40px;line-height:.95;transform:skewX(-6deg);flex:1}
+h1 small{display:block;font-size:20px;color:var(--yel)}
+.btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font:400 18px/1 var(--f);letter-spacing:1px;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:8px;box-shadow:3px 3px 0 var(--ink);padding:8px 12px 6px;cursor:pointer;white-space:nowrap}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn.y{background:var(--yel)}.btn.o{background:var(--org);color:#fff}
+#hero{display:flex;gap:14px;align-items:center;background:#fff;border:4px solid var(--ink);border-radius:10px;box-shadow:6px 6px 0 var(--ink);padding:12px;margin-bottom:14px;flex-wrap:wrap}
+#hero .t{flex:1;min-width:220px}#hero h2{margin:0;font-size:30px;color:var(--org)}#hero p{margin:2px 0 0;font-weight:700}
+#bar{position:sticky;top:0;z-index:5;display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:8px 0 10px;background:var(--paper);margin:0 -14px;padding-left:14px;padding-right:14px}
+#q{flex:1;min-width:160px;font:700 16px system-ui;padding:9px 12px;border:3px solid var(--ink);border-radius:8px;box-shadow:3px 3px 0 var(--ink);background:#fff;outline:none}
+select{font:400 17px var(--f);letter-spacing:1px;padding:7px 8px 5px;border:3px solid var(--ink);border-radius:8px;box-shadow:3px 3px 0 var(--ink);background:#fff;color:var(--ink)}
+#chips{display:flex;gap:6px;flex-wrap:wrap;width:100%}
+.chip{font:400 16px/1 var(--f);letter-spacing:1px;padding:6px 10px 4px;border:3px solid var(--ink);border-radius:20px;background:#fff;cursor:pointer;box-shadow:2px 2px 0 var(--ink)}
+.chip.on{background:var(--c,var(--ink));color:#fff}
+section.proj{margin:18px 0 26px}
+.ph{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.ph h2{margin:0;font-size:36px;line-height:1;color:var(--c);transform:skewX(-6deg)}
+.ph p{margin:0;flex:1 1 260px;font-weight:700;color:#5a4a20}
+.ph .links{display:flex;gap:6px;flex-wrap:wrap}.ph .btn{font-size:15px;padding:6px 9px 4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.card{display:flex;flex-direction:column;background:#fff;border:4px solid var(--ink);border-radius:10px;box-shadow:6px 6px 0 var(--ink);overflow:hidden}
+.card.hide{display:none}
+.thumb{position:relative;display:block;aspect-ratio:480/222;background:var(--c);border-bottom:4px solid var(--ink)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.lbl{position:absolute;left:8px;top:8px;background:var(--c);color:#fff;font:400 17px/1 var(--f);letter-spacing:1px;padding:5px 8px 3px;border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);transform:skewX(-8deg)}
+.badges{position:absolute;right:8px;top:8px;display:flex;gap:5px}
+.bdg{font:400 15px/1 var(--f);letter-spacing:1px;padding:4px 7px 2px;border:3px solid var(--ink);border-radius:5px;background:var(--yel);transform:rotate(4deg);box-shadow:2px 2px 0 var(--ink)}
+.bdg.latest{background:#38c45a;color:#fff}.bdg.rel{background:var(--org);color:#fff;transform:rotate(-4deg)}
+.play{position:absolute;right:10px;bottom:-24px;width:54px;height:54px;border-radius:50%;background:var(--yel);border:4px solid var(--ink);box-shadow:3px 3px 0 var(--ink);display:flex;align-items:center;justify-content:center;font-size:22px;padding-left:4px;text-decoration:none}
+.body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:5px;flex:1}
+.body h3{margin:0 64px 0 0;font-size:25px;line-height:1.05;color:var(--c)}
+.body p{margin:0;font-weight:600}
+.meta{margin-top:auto;padding-top:6px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;font:700 12px ui-monospace,Menlo,monospace;color:#555}
+.meta a.h{background:var(--ink);color:#fff;padding:2px 6px;border-radius:3px;text-decoration:none}
+.meta .ok{color:#1d8a3a}
+.cta{display:flex;gap:8px;margin-top:6px}.cta .btn{flex:1;justify-content:center}.cta .btn.sm{flex:none;font-size:15px}
+details.log{margin-top:14px;background:#fff;border:3px solid var(--ink);border-radius:8px;box-shadow:4px 4px 0 var(--ink)}
+details.log summary{cursor:pointer;padding:10px 12px 8px;font:400 19px var(--f);letter-spacing:1px;list-style:none}
+details.log summary::before{content:'▶ ';display:inline-block;transition:transform .1s}details.log[open] summary::before{transform:rotate(90deg)}
+.log ol{list-style:none;margin:0;padding:0 12px 10px}
+.log li{padding:7px 0;border-top:2px dashed #e3d3a3;font-size:13.5px}
+.log li .d{font:700 12px ui-monospace,Menlo,monospace;color:#6a5a30}
+.log li a.h{font:700 12px ui-monospace,Menlo,monospace;background:var(--ink);color:#fff;padding:1px 5px;border-radius:3px;text-decoration:none}
+.log li .v{font:400 13px/1 var(--f);letter-spacing:1px;background:var(--yel);border:2px solid var(--ink);border-radius:4px;padding:2px 5px 1px;margin-left:4px}
+.log li .r{font:700 11px system-ui;color:#8a7a50}
+.log li .m{display:block;margin-top:2px;font-weight:600;word-break:break-word}
+.log li.hide{display:none}
+#empty{display:none;text-align:center;font:400 26px var(--f);letter-spacing:1px;padding:30px}
+footer{margin:20px auto 0;font-size:12px;font-weight:700;color:#7a6a40;text-align:center}
+@media (max-width:560px){h1{font-size:32px}h1 small{font-size:17px}header img{width:44px;height:44px}.ph h2{font-size:30px}.grid{grid-template-columns:1fr}#hero h2{font-size:25px}}
+</style></head><body><div class="wrap">
+<header><img src="icons/apple-touch-icon.png" alt=""><h1 class="ink">SINE RALLY<small>VERSION MANAGER</small></h1><a class="btn" href="https://leck-games.github.io/">‹ ALL BUILDS</a></header>
+<div id="hero"></div>
+<div id="bar"><input id="q" type="search" placeholder="Search versions, commits, features…" autocomplete="off"><select id="sort" aria-label="Sort"><option value="new">NEWEST FIRST</option><option value="old">OLDEST FIRST</option></select><div id="chips"></div></div>
+<main id="list"></main><div id="empty">NOTHING FOUND</div>
+<footer>Every build is a frozen <code>git archive</code> snapshot that never changes. Saves are kept separately for each version. Times are Vienna time. <span id="gen"></span><br><a href="https://github.com/leck-games/versions">github.com/leck-games/versions</a></footer>
+</div>
+<script src="app.js"></script>
+</body></html>

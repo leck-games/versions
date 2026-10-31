@@ -1,0 +1,7 @@
+{
+  "name": "sinerally-physics",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node tests/unit.mjs", "test:browser": "node tests/browser.mjs", "serve": "node tests/serve.mjs" },
+  "devDependencies": { "puppeteer-core": "^22" }
+}
