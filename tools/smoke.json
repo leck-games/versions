@@ -275,5 +275,16 @@
   "http": [],
   "unscopedKeys": 0,
   "tested": "2026-10-31T12:28:11.829Z"
+ },
+ "route/v0.1": {
+  "ok": true,
+  "status": 200,
+  "title": "Sine Rally Route V0.1",
+  "canvas": 3,
+  "pageErrors": [],
+  "consoleErrors": [],
+  "http": [],
+  "unscopedKeys": 0,
+  "tested": "2026-11-03T13:48:41.997Z"
  }
 }

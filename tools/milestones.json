@@ -35,6 +35,13 @@
     {"slug": "v0.1", "label": "V0.1", "repo": "leck-games/sinerally-ui", "commit": "6444cde", "title": "Sine Rally V0.1", "release": "https://github.com/leck-games/sinerally-ui/releases/tag/v0.1", "badges": ["V0.1"],
      "desc": "The first numbered release. Everything in the earlier builds, plus a compact checkpoint toast with best splits, and the next checkpoint and waypoint shown as compass badges (edge arrows when behind you). Version tag in the menu with a link back here."}
    ]},
+  {"id": "route", "name": "Sine Rally Route", "tagline": "An endless, curvy Route-66-style road through prairie, red-rock desert, forest, snowy mountains and coast. Forked from sinerally-ui.", "color": "#ffb000",
+   "repos": [{"dir": "/workspace/sinerally-route", "gh": "leck-games/sinerally-route", "since": "05a4b9e"}],
+   "live": "https://leck-games.github.io/sinerally-route/",
+   "versions": [
+    {"slug": "v0.1", "label": "V0.1", "repo": "leck-games/sinerally-route", "commit": "1eb67f8", "title": "Sine Rally Route V0.1", "badges": ["V0.1"],
+     "desc": "The first Route build: one procedural, endless two-lane road with grades capped at about 10%, tunnels and bridges, and a floating origin (tested on 50+ km drives). Five biomes blend every few km, with mesas, cactus and palms, mile markers and diners. A route strip HUD shows km driven and the next biome, and the autopilot is key O."}
+   ]},
   {"id": "engine", "name": "Sine Rally Engine", "tagline": "The engine test build: physics, terrain and roads before the comic merge.", "color": "#4fb3ff",
    "repos": [{"dir": "/workspace/sinerally-engine", "gh": "leck-games/sinerally-engine"}], "live": "https://leck-games.github.io/sinerally-engine/",
    "versions": [

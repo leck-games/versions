@@ -86,7 +86,7 @@ def main():
         log = []
         mil = {v['sha']: v['label'] for v in vs}
         for r in p['repos']:
-            for line in git(r['dir'], 'log', '--format=%H%x00%at%x00%s%x00%b%x1e').decode().split('\x1e'):
+            for line in git(r['dir'], 'log', '--format=%H%x00%at%x00%s%x00%b%x1e', *([r['since'] + '..HEAD'] if r.get('since') else [])).decode().split('\x1e'):
                 line = line.strip('\n')
                 if not line: continue
                 sha, ts, subj, body = line.split('\x00')

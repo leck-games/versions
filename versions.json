@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-31T13:29+01:00",
+ "generated": "2026-11-03T14:48+01:00",
  "site": "https://leck-games.github.io/versions/",
  "projects": [
   {
@@ -441,6 +441,215 @@
    ],
    "changelog": [
     {
+     "sha": "05a4b9ec855ca24f4d65a85fd9b28cfd54708919",
+     "commit": "05a4b9e",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-11-02T19:28:26+01:00",
+     "date_vie": "02 Nov 2026, 19:28",
+     "msg": "RIM HIGHWAY: terrain-local.patch regenerated (ring + banking), MODULE_API/README/sync notes",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/05a4b9ec855ca24f4d65a85fd9b28cfd54708919",
+     "version": null
+    },
+    {
+     "sha": "56db04ec3be1c4dbedce0907d23fadf755e63826",
+     "commit": "56db04e",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-11-02T19:27:57+01:00",
+     "date_vie": "02 Nov 2026, 19:27",
+     "msg": "RIM HIGHWAY tests: test-roads rim checks (bank, junctions, grade, cut, tunnels/bridges), test-rim drive + banked-vs-flat skidpad; __st.gripTest/__st.drive test hooks",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/56db04ec3be1c4dbedce0907d23fadf755e63826",
+     "version": null
+    },
+    {
+     "sha": "d7889d92fbbe5e239536fac5a628e6440281f639",
+     "commit": "d7889d9",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-11-02T19:16:38+01:00",
+     "date_vie": "02 Nov 2026, 19:16",
+     "msg": "RIM HIGHWAY: streamed banked ribbon (tilted normals), gold ring + RIM HIGHWAY labels on minimap/world map, camHook for shots",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/d7889d92fbbe5e239536fac5a628e6440281f639",
+     "version": null
+    },
+    {
+     "sha": "03955c4a3967f193f7d361cee8ac0b33717bc948",
+     "commit": "03955c4",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-11-02T19:09:49+01:00",
+     "date_vie": "02 Nov 2026, 19:09",
+     "msg": "RIM HIGHWAY: 68.7 km banked ring road in terrain (profile, tunnels, viaducts, 13 junctions with flat landings)",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/03955c4a3967f193f7d361cee8ac0b33717bc948",
+     "version": null
+    },
+    {
+     "sha": "b1fff31d62b73afb0fbdd4a559083157019c60ff",
+     "commit": "b1fff31",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-11-02T18:37:36+01:00",
+     "date_vie": "02 Nov 2026, 18:37",
+     "msg": "Terrain patch (hills/tunnels), sync-terrain note, README",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/b1fff31d62b73afb0fbdd4a559083157019c60ff",
+     "version": null
+    },
+    {
+     "sha": "dfd2019c893ddd36f3673062902a64a25d54689b",
+     "commit": "dfd2019",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-11-02T18:35:31+01:00",
+     "date_vie": "02 Nov 2026, 18:35",
+     "msg": "Tests: hills cut limit / over-top grade cap in test-roads; test-tunnel drive-through",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/dfd2019c893ddd36f3673062902a64a25d54689b",
+     "version": null
+    },
+    {
+     "sha": "f285e2807feff981a1bc3d8f91b105f7d28a31b8",
+     "commit": "f285e28",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-11-02T18:31:00+01:00",
+     "date_vie": "02 Nov 2026, 18:31",
+     "msg": "Hills: cap road cuts (6.5 m) / fills (12 m); deep cuts go over the top (12/15% grade cap) or through comic tunnels (tube, portals, light strips, wall collision, terrain hole, minimap dashes)",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/f285e2807feff981a1bc3d8f91b105f7d28a31b8",
+     "version": null
+    },
+    {
+     "sha": "75a54eb82f0b52642ff6b6ef7aee94513cf63a08",
+     "commit": "75a54eb",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-11-01T20:17:50+01:00",
+     "date_vie": "01 Nov 2026, 20:17",
+     "msg": "Tree HP labels hidden by default; ☰ → CONTROLS → TREE HP toggle (persisted); test-treehp",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/75a54eb82f0b52642ff6b6ef7aee94513cf63a08",
+     "version": null
+    },
+    {
+     "sha": "68dc6b59337203a72350808644036094c1873090",
+     "commit": "68dc6b5",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-11-01T19:44:01+01:00",
+     "date_vie": "01 Nov 2026, 19:44",
+     "msg": "README: roads over terrain, throttle ramp, compass, tree variety",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/68dc6b59337203a72350808644036094c1873090",
+     "version": null
+    },
+    {
+     "sha": "58188d3cd563d24943e6501068bec22c0ac67a12",
+     "commit": "58188d3",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-11-01T19:43:40+01:00",
+     "date_vie": "01 Nov 2026, 19:43",
+     "msg": "Trees: 6 new impostor species (spruce, birch, oak, poplar, bush, bare), autumn patches, natural lean, altitude/moisture biome mix; impostor-only, same tri budget; shot-trees tool",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/58188d3cd563d24943e6501068bec22c0ac67a12",
+     "version": null
+    },
+    {
+     "sha": "b7911630faf2aa3f9eb9b754546d75410f719cdf",
+     "commit": "b791163",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-11-01T19:37:56+01:00",
+     "date_vie": "01 Nov 2026, 19:37",
+     "msg": "Top legend fix: compact compass strip so marker distance labels fit the 44px HUD strip (were clipped); power graph legend row moved above the plot",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/b7911630faf2aa3f9eb9b754546d75410f719cdf",
+     "version": null
+    },
+    {
+     "sha": "fd02f3f04068c8a0971ddd0c6ec567742b72ae35",
+     "commit": "fd02f3f",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-11-01T19:35:52+01:00",
+     "date_vie": "01 Nov 2026, 19:35",
+     "msg": "Throttle ramp by power: progressive pedal (AUTO 0.1 s stock → 0.7 s at 10000 hp, faster lift, eased onset, low-rev inertia), THROTTLE RESPONSE slider; test-power ramp checks",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/fd02f3f04068c8a0971ddd0c6ec567742b72ae35",
+     "version": null
+    },
+    {
+     "sha": "4b8ed2daa176d6caa3d33c4e0f7a1f4e4c47ff8d",
+     "commit": "4b8ed2d",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-11-01T19:33:43+01:00",
+     "date_vie": "01 Nov 2026, 19:33",
+     "msg": "Roads over terrain: exact road-foot projection, crossing pins + max-bed rule, bridge spans, junction/loop seam fixes, road-safe render grids; tools/test-roads.cjs; terrain-local.patch regenerated",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/4b8ed2daa176d6caa3d33c4e0f7a1f4e4c47ff8d",
+     "version": null
+    },
+    {
+     "sha": "84728c0a7a1fd288d5f1905494cf1b850a391b7c",
+     "commit": "84728c0",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-11-01T18:48:38+01:00",
+     "date_vie": "01 Nov 2026, 18:48",
+     "msg": "Power panel side layout, sound parity + power UI tests, README",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/84728c0a7a1fd288d5f1905494cf1b850a391b7c",
+     "version": null
+    },
+    {
+     "sha": "b7f3af3e33ee7778d38ddd0bb1150dbe7f388acc",
+     "commit": "b7f3af3",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-11-01T18:44:33+01:00",
+     "date_vie": "01 Nov 2026, 18:44",
+     "msg": "Power curve editor (VEHICLE → ENGINE / POWER, up to 10000 hp) + demo motor bench in sound editor",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/b7f3af3e33ee7778d38ddd0bb1150dbe7f388acc",
+     "version": null
+    },
+    {
+     "sha": "eb1ab7eeae232107d2906080bdb24b350811c0ab",
+     "commit": "eb1ab7e",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-10-31T17:38:27+01:00",
+     "date_vie": "31 Oct 2026, 17:38",
+     "msg": "V0.2-dev strings in manifest/index/README, README sky section, test-ui reads expected version from js/version.js",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/eb1ab7eeae232107d2906080bdb24b350811c0ab",
+     "version": null
+    },
+    {
+     "sha": "a8831ec368d54ba41d21c5429dff7e10e50f1c15",
+     "commit": "a8831ec",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-10-31T17:22:50+01:00",
+     "date_vie": "31 Oct 2026, 17:22",
+     "msg": "terrain-local.patch: include sky/haze changes to comic.js + weather.js",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/a8831ec368d54ba41d21c5429dff7e10e50f1c15",
+     "version": null
+    },
+    {
+     "sha": "f008f88e266b18261e643726ab77417ae664d467",
+     "commit": "f008f88",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-10-31T17:22:41+01:00",
+     "date_vie": "31 Oct 2026, 17:22",
+     "msg": "Atmosphere: smooth gradient sky dome (sun disc+halo, haze band, cirrus, dither), view-dependent haze fog matching sky, sky presets (FUEL/Clear/Hazy/Golden) in one WORLD select, no ink/posterize on sky; V0.2-dev",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/f008f88e266b18261e643726ab77417ae664d467",
+     "version": null
+    },
+    {
+     "sha": "3d25fcebfa8ede9230eee09b0bf7c9a906a09c3b",
+     "commit": "3d25fce",
+     "repo": "leck-games/sinerally-ui",
+     "date": "2026-10-31T17:19:33+01:00",
+     "date_vie": "31 Oct 2026, 17:19",
+     "msg": "tools/shot-sky.cjs: sky/atmosphere before-after screenshots (car + plane vistas, day + sunset)",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-ui/commit/3d25fcebfa8ede9230eee09b0bf7c9a906a09c3b",
+     "version": null
+    },
+    {
      "sha": "6444cde1b0b63d762bcfe3f9aaa772ba86cd3fd3",
      "commit": "6444cde",
      "repo": "leck-games/sinerally-ui",
@@ -670,6 +879,95 @@
      "body": "",
      "url": "https://github.com/leck-games/sinerally/commit/0326ea69182d630dc1826b6922bdf9ef50785606",
      "version": "pre-0.1 build 1"
+    }
+   ]
+  },
+  {
+   "id": "route",
+   "name": "Sine Rally Route",
+   "tagline": "An endless, curvy Route-66-style road through prairie, red-rock desert, forest, snowy mountains and coast. Forked from sinerally-ui.",
+   "color": "#ffb000",
+   "live": "https://leck-games.github.io/sinerally-route/",
+   "repos": [
+    "leck-games/sinerally-route"
+   ],
+   "versions": [
+    {
+     "slug": "v0.1",
+     "label": "V0.1",
+     "name": "Sine Rally Route V0.1",
+     "title": "Sine Rally Route V0.1",
+     "desc": "The first Route build: one procedural, endless two-lane road with grades capped at about 10%, tunnels and bridges, and a floating origin (tested on 50+ km drives). Five biomes blend every few km, with mesas, cactus and palms, mile markers and diners. A route strip HUD shows km driven and the next biome, and the autopilot is key O.",
+     "repo": "leck-games/sinerally-route",
+     "commit": "1eb67f8",
+     "sha": "1eb67f8e7d54f9a57291539e2cb441b482536a6b",
+     "url_commit": "https://github.com/leck-games/sinerally-route/commit/1eb67f8e7d54f9a57291539e2cb441b482536a6b",
+     "date": "2026-11-03T14:47:47+01:00",
+     "date_vie": "03 Nov 2026, 14:47",
+     "path": "route/v0.1/",
+     "badges": [
+      "latest",
+      "V0.1"
+     ],
+     "release": null,
+     "thumb": "thumbs/route-v0.1.jpg",
+     "smoke": {
+      "ok": true,
+      "status": 200,
+      "title": "Sine Rally Route V0.1",
+      "canvas": 3,
+      "pageErrors": [],
+      "consoleErrors": [],
+      "http": [],
+      "unscopedKeys": 0,
+      "tested": "2026-11-03T13:48:41.997Z"
+     }
+    }
+   ],
+   "changelog": [
+    {
+     "sha": "1eb67f8e7d54f9a57291539e2cb441b482536a6b",
+     "commit": "1eb67f8",
+     "repo": "leck-games/sinerally-route",
+     "date": "2026-11-03T14:47:47+01:00",
+     "date_vie": "03 Nov 2026, 14:47",
+     "msg": "README for Sine Rally Route; HUD route strip fitted labels; own srroute_* storage keys; screenshot script; fork notes",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-route/commit/1eb67f8e7d54f9a57291539e2cb441b482536a6b",
+     "version": "V0.1"
+    },
+    {
+     "sha": "77d831685b9dcdb73945f725f9a4562d80334558",
+     "commit": "77d8316",
+     "repo": "leck-games/sinerally-route",
+     "date": "2026-11-03T14:39:23+01:00",
+     "date_vie": "03 Nov 2026, 14:39",
+     "msg": "Headless tests: road continuity/grade/determinism/chunks, 50 km autopilot drive, rendered rebase, biome transitions, load+perf budgets",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-route/commit/77d831685b9dcdb73945f725f9a4562d80334558",
+     "version": null
+    },
+    {
+     "sha": "372ed03a3a47801e0f481e4266a2bfeb95f476ad",
+     "commit": "372ed03",
+     "repo": "leck-games/sinerally-route",
+     "date": "2026-11-03T14:33:00+01:00",
+     "date_vie": "03 Nov 2026, 14:33",
+     "msg": "Fast headless sim, tunnel wall lateral fix, rocks clear of the road, test lib",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-route/commit/372ed03a3a47801e0f481e4266a2bfeb95f476ad",
+     "version": null
+    },
+    {
+     "sha": "44add53503da59363ae9178d72fba67e7b851dd6",
+     "commit": "44add53",
+     "repo": "leck-games/sinerally-route",
+     "date": "2026-11-03T14:28:05+01:00",
+     "date_vie": "03 Nov 2026, 14:28",
+     "msg": "Sine Rally Route V0.1: endless chunked route + biomes, floating origin, props, route strip HUD, autopilot; drop planes/airfields/races/map/compass",
+     "body": "",
+     "url": "https://github.com/leck-games/sinerally-route/commit/44add53503da59363ae9178d72fba67e7b851dd6",
+     "version": null
     }
    ]
   },
