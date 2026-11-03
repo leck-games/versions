@@ -7,7 +7,7 @@ Every Sine Rally build, frozen and playable. Each version has a description, its
 | Project | Folder | Repos |
 |---|---|---|
 | Sine Rally (the game, incl. **Sine Rally V0.1**) | `sinerally/` | leck-games/sinerally (classic, frozen) → leck-games/sinerally-ui |
-| Sine Rally Route (**Sine Rally Route V0.1**) | `route/` | leck-games/sinerally-route (fork of sinerally-ui; changelog from the fork point via `"since"` in milestones.json) |
+| SineHighway, formerly Sine Rally Route (**V0.1**, **SineHighway V0.2**) | `route/` | leck-games/sinehighway, renamed from leck-games/sinerally-route (fork of sinerally-ui; changelog from the fork point via `"since"` in milestones.json) |
 | Sine Rally Engine | `engine/` | leck-games/sinerally-engine |
 | Engine Sim | `enginesim/` | leck-games/engine-sim |
 | Physics Lab | `physics/` | leck-games/sinerally-physics |

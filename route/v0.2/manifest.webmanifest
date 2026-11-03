@@ -1,0 +1,35 @@
+{
+ "name": "SineHighway V0.2",
+ "short_name": "SineHighway V0.2",
+ "description": "SineHighway V0.2: an endless, curvy Route-66-style comic drive through prairie, red-rock desert, pine forest, snowy mountains and coast",
+ "id": "./?app=sinehighway",
+ "start_url": "./?app=sinehighway",
+ "scope": "./",
+ "display": "fullscreen",
+ "display_override": [
+  "fullscreen",
+  "standalone"
+ ],
+ "orientation": "landscape",
+ "background_color": "#f7e6b5",
+ "theme_color": "#ff6a1a",
+ "icons": [
+  {
+   "src": "icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/apple-touch-icon.png",
+   "sizes": "180x180",
+   "type": "image/png"
+  }
+ ]
+}

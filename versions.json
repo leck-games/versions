@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03T14:48+01:00",
+ "generated": "2026-11-03T16:18+01:00",
  "site": "https://leck-games.github.io/versions/",
  "projects": [
   {
@@ -884,29 +884,28 @@
   },
   {
    "id": "route",
-   "name": "Sine Rally Route",
-   "tagline": "An endless, curvy Route-66-style road through prairie, red-rock desert, forest, snowy mountains and coast. Forked from sinerally-ui.",
+   "name": "SineHighway",
+   "tagline": "(formerly Sine Rally Route) An endless, curvy Route-66-style road through prairie, red-rock desert, forest, snowy mountains and coast. Forked from sinerally-ui.",
    "color": "#ffb000",
-   "live": "https://leck-games.github.io/sinerally-route/",
+   "live": "https://leck-games.github.io/sinehighway/",
    "repos": [
-    "leck-games/sinerally-route"
+    "leck-games/sinehighway"
    ],
    "versions": [
     {
      "slug": "v0.1",
      "label": "V0.1",
-     "name": "Sine Rally Route V0.1",
+     "name": "SineHighway V0.1",
      "title": "Sine Rally Route V0.1",
      "desc": "The first Route build: one procedural, endless two-lane road with grades capped at about 10%, tunnels and bridges, and a floating origin (tested on 50+ km drives). Five biomes blend every few km, with mesas, cactus and palms, mile markers and diners. A route strip HUD shows km driven and the next biome, and the autopilot is key O.",
-     "repo": "leck-games/sinerally-route",
+     "repo": "leck-games/sinehighway",
      "commit": "1eb67f8",
      "sha": "1eb67f8e7d54f9a57291539e2cb441b482536a6b",
-     "url_commit": "https://github.com/leck-games/sinerally-route/commit/1eb67f8e7d54f9a57291539e2cb441b482536a6b",
+     "url_commit": "https://github.com/leck-games/sinehighway/commit/1eb67f8e7d54f9a57291539e2cb441b482536a6b",
      "date": "2026-11-03T14:47:47+01:00",
      "date_vie": "03 Nov 2026, 14:47",
      "path": "route/v0.1/",
      "badges": [
-      "latest",
       "V0.1"
      ],
      "release": null,
@@ -922,51 +921,94 @@
       "unscopedKeys": 0,
       "tested": "2026-11-03T13:48:41.997Z"
      }
+    },
+    {
+     "slug": "v0.2",
+     "label": "V0.2",
+     "name": "SineHighway V0.2",
+     "title": "SineHighway V0.2",
+     "desc": "Renamed to SineHighway. Holding the throttle now shifts up to the top gear and stays there, with no hunting at top speed or on climbs. A new MANUAL gearbox option (CONTROLS & HUD) shifts with a swipe up or down on the gas pedal while you keep holding it, or with the X / Z keys. It has a rev limiter and an over-rev guard, the HUD gear flashes on each shift, and the autopilot still uses the auto box.",
+     "repo": "leck-games/sinehighway",
+     "commit": "7d9fe24",
+     "sha": "7d9fe24895d7b6e7fa2ad892c5025d2aaf9475f1",
+     "url_commit": "https://github.com/leck-games/sinehighway/commit/7d9fe24895d7b6e7fa2ad892c5025d2aaf9475f1",
+     "date": "2026-11-03T16:17:01+01:00",
+     "date_vie": "03 Nov 2026, 16:17",
+     "path": "route/v0.2/",
+     "badges": [
+      "latest",
+      "V0.2",
+      "GEARBOX"
+     ],
+     "release": null,
+     "thumb": "thumbs/route-v0.2.jpg",
+     "smoke": {
+      "ok": true,
+      "status": 200,
+      "title": "SineHighway V0.2",
+      "canvas": 3,
+      "pageErrors": [],
+      "consoleErrors": [],
+      "http": [],
+      "unscopedKeys": 0,
+      "tested": "2026-11-03T15:17:58.399Z"
+     }
     }
    ],
    "changelog": [
     {
+     "sha": "7d9fe24895d7b6e7fa2ad892c5025d2aaf9475f1",
+     "commit": "7d9fe24",
+     "repo": "leck-games/sinehighway",
+     "date": "2026-11-03T16:17:01+01:00",
+     "date_vie": "03 Nov 2026, 16:17",
+     "msg": "SineHighway V0.2: auto gearbox holds top gear on a held throttle (no hunting); manual gearbox (GEARBOX setting, pedal swipe, X/Z keys, HUD flash); rename from Sine Rally Route; tests",
+     "body": "",
+     "url": "https://github.com/leck-games/sinehighway/commit/7d9fe24895d7b6e7fa2ad892c5025d2aaf9475f1",
+     "version": "V0.2"
+    },
+    {
      "sha": "1eb67f8e7d54f9a57291539e2cb441b482536a6b",
      "commit": "1eb67f8",
-     "repo": "leck-games/sinerally-route",
+     "repo": "leck-games/sinehighway",
      "date": "2026-11-03T14:47:47+01:00",
      "date_vie": "03 Nov 2026, 14:47",
      "msg": "README for Sine Rally Route; HUD route strip fitted labels; own srroute_* storage keys; screenshot script; fork notes",
      "body": "",
-     "url": "https://github.com/leck-games/sinerally-route/commit/1eb67f8e7d54f9a57291539e2cb441b482536a6b",
+     "url": "https://github.com/leck-games/sinehighway/commit/1eb67f8e7d54f9a57291539e2cb441b482536a6b",
      "version": "V0.1"
     },
     {
      "sha": "77d831685b9dcdb73945f725f9a4562d80334558",
      "commit": "77d8316",
-     "repo": "leck-games/sinerally-route",
+     "repo": "leck-games/sinehighway",
      "date": "2026-11-03T14:39:23+01:00",
      "date_vie": "03 Nov 2026, 14:39",
      "msg": "Headless tests: road continuity/grade/determinism/chunks, 50 km autopilot drive, rendered rebase, biome transitions, load+perf budgets",
      "body": "",
-     "url": "https://github.com/leck-games/sinerally-route/commit/77d831685b9dcdb73945f725f9a4562d80334558",
+     "url": "https://github.com/leck-games/sinehighway/commit/77d831685b9dcdb73945f725f9a4562d80334558",
      "version": null
     },
     {
      "sha": "372ed03a3a47801e0f481e4266a2bfeb95f476ad",
      "commit": "372ed03",
-     "repo": "leck-games/sinerally-route",
+     "repo": "leck-games/sinehighway",
      "date": "2026-11-03T14:33:00+01:00",
      "date_vie": "03 Nov 2026, 14:33",
      "msg": "Fast headless sim, tunnel wall lateral fix, rocks clear of the road, test lib",
      "body": "",
-     "url": "https://github.com/leck-games/sinerally-route/commit/372ed03a3a47801e0f481e4266a2bfeb95f476ad",
+     "url": "https://github.com/leck-games/sinehighway/commit/372ed03a3a47801e0f481e4266a2bfeb95f476ad",
      "version": null
     },
     {
      "sha": "44add53503da59363ae9178d72fba67e7b851dd6",
      "commit": "44add53",
-     "repo": "leck-games/sinerally-route",
+     "repo": "leck-games/sinehighway",
      "date": "2026-11-03T14:28:05+01:00",
      "date_vie": "03 Nov 2026, 14:28",
      "msg": "Sine Rally Route V0.1: endless chunked route + biomes, floating origin, props, route strip HUD, autopilot; drop planes/airfields/races/map/compass",
      "body": "",
-     "url": "https://github.com/leck-games/sinerally-route/commit/44add53503da59363ae9178d72fba67e7b851dd6",
+     "url": "https://github.com/leck-games/sinehighway/commit/44add53503da59363ae9178d72fba67e7b851dd6",
      "version": null
     }
    ]

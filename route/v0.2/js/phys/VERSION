@@ -1,0 +1,2 @@
+vendored from sinerally-physics@5dfd424 on 2026-10-28
++ physics-local.patch (local: auto box climbs to top gear on a held throttle and holds it, no hunting; manual gearbox: s.manual + shiftGear())
