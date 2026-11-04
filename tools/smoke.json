@@ -297,5 +297,16 @@
   "http": [],
   "unscopedKeys": 0,
   "tested": "2026-11-03T15:20:13.746Z"
+ },
+ "plane/v0.1": {
+  "ok": true,
+  "status": 200,
+  "title": "SineHighway Plane Edition V0.1",
+  "canvas": 3,
+  "pageErrors": [],
+  "consoleErrors": [],
+  "http": [],
+  "unscopedKeys": 0,
+  "tested": "2026-11-04T20:08:40.435Z"
  }
 }
